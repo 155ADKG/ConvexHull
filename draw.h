@@ -29,7 +29,7 @@ private:
     unsigned int countPoints;
     bool pushGen;
     bool pushAlg;
-    int nMillisec;
+    int time_alg;
 
 public:
     explicit Draw(QWidget *parent = 0);
@@ -42,6 +42,8 @@ public:
     void setCountPoints(unsigned int countPoints_){ countPoints = countPoints_; }
     void setPushGen(bool pushGen_){ pushGen = pushGen_; }
     void setPushAlg(bool pushAlg_){ pushAlg = pushAlg_; }
+
+    int getTiming(){ return time_alg; }
 
 };
 

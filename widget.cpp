@@ -43,6 +43,10 @@ void Widget::on_pushAlg_clicked()
     ui->canvas->setPushAlg(true);
 
     repaint();
+
+    // Draw time of algorithms
+    int time_alg = ui->canvas->getTiming();
+    ui->label_timing->setText(QString::number(time_alg)+" ms");
 }
 
 void Widget::on_comboTypeAlg_currentIndexChanged(int index)

@@ -47,11 +47,8 @@ void Draw::paintEvent(QPaintEvent *e)
             }else{
                 convexHull = Algorithms::jarvis(points);
             }
-            qDebug() << convexHull.size();
 
-            nMillisec = myTimer.elapsed();
-
-            qDebug() << nMillisec;
+            time_alg = myTimer.elapsed();
 
             QVector<QPoint> QConvexHull = QVector<QPoint>::fromStdVector(convexHull);
             painter.drawPolygon(QConvexHull);
