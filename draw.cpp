@@ -14,17 +14,16 @@ void Draw::paintEvent(QPaintEvent *e)
     if(pushGen){
 
         // TODO: erase BRB !!!
-        countPoints = 100;
+        countPoints = 10000;
 
         points.clear();
         generatePoints();
-
-        // vector.clear();
 
         // Draw point
         for(int i=0; i<countPoints; i++){
             painter.drawEllipse(points[i].x(), points[i].y(), r, r);
         }
+
     }else{
 
         if(pushAlg == true && points.size()>0){
@@ -65,40 +64,39 @@ void Draw::paintEvent(QPaintEvent *e)
 
 void Draw::generatePoints(){
 
+    const int win_size = 800;
+
     if(typeGenerate == CLUS)
     {
-        // TODO: vector rand QPoint - example 10 points
-        // TODO: for vector generate nex points in cluster
-        std::vector<QPoint> clus;
-        clus.clear();
-        for(int i=0;i<10;i++)
+        while (points.size() < countPoints)
         {
-            clus.push_back((QPoint(rand()%800,rand()%800)));
+            QPoint pivot(rand()%win_size,rand()%win_size);
+            points.push_back(pivot);
+
+            for(int i=0; i<rand()%100; i++)
+            {
+                if(points.size()>=countPoints)
+                {
+                    break;
+                }
+
+                points.push_back(QPoint(pivot.x()+rand()%10,pivot.y()+rand()%5));
+            }
         }
-
-        for(int i=0;i<clus.size();i++)
-        {
-            points.push_back(clus[i]);
-            points.push_back(QPoint(clus[i].x()+rand()%20,clus[i].y()+rand()%20));
-            points.push_back(QPoint(clus[i].x()+rand()%20,clus[i].y()+rand()%20));
-            points.push_back(QPoint(clus[i].x()+rand()%20,clus[i].y()+rand()%20));
-            points.push_back(QPoint(clus[i].x()+rand()%20,clus[i].y()+rand()%20));
-        }
-
-
-
-
-    }else if(typeGenerate == GRID)
+    }
+    else if(typeGenerate == GRID)
     {
-        for(float x=0; x<800; x += 800.0/sqrt(countPoints))
+        for(float x=0; x<win_size; x += win_size/sqrt(countPoints))
         {
-            for(float y=0; y<800; y += 800.0/sqrt(countPoints))
+            for(float y=0; y<win_size; y += win_size/sqrt(countPoints))
             {
                 points.push_back(QPoint(x,y));
 
                 // Exception for QPoint - we work with integer..
                 if (points.size() == countPoints)
+                {
                     break;
+                }
             }
         }
     }
@@ -106,7 +104,7 @@ void Draw::generatePoints(){
     {
         for (int i=0;i<countPoints;i++)
         {
-            points.push_back(QPoint(rand()%800,rand()%800));
+            points.push_back(QPoint(rand()%win_size,rand()%win_size));
         }
     }
 
