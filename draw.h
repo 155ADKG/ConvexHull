@@ -4,12 +4,26 @@
 #include <QWidget>
 #include "algorithms.h"
 
+enum typeGen
+{
+    RAND   =  0,
+    GRID  =   1,
+    CLUS   =  2
+};
+
+enum typeAlg
+{
+    JAR   =  0,
+    QCK  =   1,
+    INC   =  2
+};
+
 class Draw : public QWidget
 {
     Q_OBJECT
 private:
-    vecQPoint points;
-    vecQPoint convexHull;
+    std::vector<QPoint> points;
+    std::vector<QPoint> convexHull;
     typeGen typeGenerate;
     typeAlg typeAlgorithm;
     unsigned int countPoints;
@@ -18,7 +32,7 @@ private:
 public:
     explicit Draw(QWidget *parent = 0);
     void paintEvent(QPaintEvent *e);
-    QPointF generatePoint();
+    QPoint generatePoint();
     void generatePoints();
 
     void setTypeGenerate(typeGen typeGenerate_) { typeGenerate = typeGenerate_; }

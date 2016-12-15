@@ -1,8 +1,6 @@
 #include "algorithms.h"
-#include "sortbyxasc.h"
-#include "sortbyyasc.h"
 
-double Algorithms::getTwoVectorsOrientation(const QPointF &p1, const QPointF &p2, const QPointF &p3, const QPointF &p4)
+double Algorithms::getTwoVectorsOrientation(const QPoint &p1, const QPoint &p2, const QPoint &p3, const QPoint &p4)
 {
     //Vector u = p2-p1 and v = p4-p3
     const double ux = p2.x() - p1.x();
@@ -10,15 +8,14 @@ double Algorithms::getTwoVectorsOrientation(const QPointF &p1, const QPointF &p2
     const double vx = p4.x() - p3.x();
     const double vy = p4.y() - p3.y();
 
-    const double pi = atan(1.0);
-
-
+    const double pi =2.0*asin(1.0);
     return acos((ux*vx + uy*vy)/(sqrt(ux*ux+uy*uy)*sqrt(vx*vx+vy*vy)))*(180/pi);
 
 }
 
-double Algorithms::getPointLineDistance(const QPointF &p, const QPointF &p1, const QPointF &p2){
 
+double Algorithms::getPointLineDistance(const QPoint p, const QPoint p1, const QPoint p2)
+{
     double x = p.x();
     double y = p.y();
     double x1 = p1.x();
@@ -29,12 +26,155 @@ double Algorithms::getPointLineDistance(const QPointF &p, const QPointF &p1, con
     double d = x*(y1-y2)+x1*(y2-y)+x2*(y-y1);
     d /= sqrt((x2-x1)*(x2-x1)+(y2-y1)*(y2-y1));
 
-
     return d;
-
 }
 
-int Algorithms::getPointLinePosition(const QPointF &p, const QPointF &p1, const QPointF &p2)
+std::vector<QPoint> Algorithms::incr(std::vector<QPoint> points)
+{
+    const unsigned int m=points.size();
+
+    std::vector<QPoint> CH;
+
+    //Sort points by X
+    std::sort(points.begin(),points.end(),SortByXAsc());
+
+    //List of previous and next points of CH
+    std::vector<unsigned int> p(m), n(m);
+
+    //Create inital approximation of CH
+    p[0] = 1;
+    n[0] = 1;
+    p[1] = 0;
+    n[1] = 0;
+
+    //Incremental insertion: add all points one by one
+    for(int i=2;i<m;i++)
+    {
+
+        //Point in the left halfplane
+        if(getPointLinePosition(points[i],points[p[i-1]],points[i-1])==1)
+        {
+
+            //Set path from i
+            p[i] = i-1;
+            n[i] = n[i-1];
+        }
+
+        //Point in the right halfplane
+        else
+        {
+
+            //Set path from i
+            p[i] = p[i-1];
+            n[i] = i-1;
+        }
+
+        //Set path to i
+        n[p[i]] = i;
+        p[n[i]] = i;
+
+        //Fix upper tangent
+        while (getPointLinePosition(points[n[n[i]]],points[i],points[n[i]])<1)
+        {
+            p[n[n[i]]] = i;
+            n[i] = n[n[i]];
+        }
+
+        //Fix lower tangent
+        while (getPointLinePosition(points[p[p[i]]],points[p[i]],points[i])==1)
+        {
+            n[p[p[i]]] = i;
+            p[i] = p[p[i]];
+        }
+
+        //Convert Circular list to the list of points
+        CH.push_back(points[0]);
+        int idx = n[0];
+        while (idx!=0)
+        {
+            CH.push_back(points[idx]);
+            idx = n[idx];
+        }
+    }
+    return CH;
+}
+
+
+std::vector<QPoint> Algorithms::qhull(std::vector<QPoint> points)
+{
+    std::vector<QPoint> ch, uh, lh;
+
+    std::sort(points.begin(),points.end(),SortByXAsc());
+
+    //Find q1, q3
+    QPoint q1 = points[0];
+    QPoint q3 = points[points.size()-1];
+
+    //Reorder to UH, LH
+    uh.push_back(q1);
+    uh.push_back(q3);
+    lh.push_back(q1);
+    lh.push_back(q3);
+
+    for (int i=0;i<points.size();i++)
+    {
+        //Add to UH
+        if(getPointLinePosition(q1,q3,points[i])==1)
+            uh.push_back(points[i]);
+
+        //Add to LH
+        else if(getPointLinePosition(q1,q3,points[i])==0)
+            lh.push_back(points[i]);
+
+    }
+
+    //Process upper hull
+    ch.push_back(q3);
+    qh(1,0,uh,ch);
+
+    //Process lower hull
+    ch.push_back(q1);
+    qh(0,1,lh,ch);
+
+    return ch;
+}
+
+void Algorithms::qh(const int s, const int e, const std::vector<QPoint> &points, std::vector<QPoint> ch)
+{
+    int i_max = -1;
+    double d_max = 0;
+
+    for(int i=0;i<points.size();i++)
+    {
+        if(getPointLinePosition(points[i],points[s],points[e]))
+        {
+            double d = getPointLineDistance(points[i],points[s],points[e]);
+
+            //Compare to dmax
+            if (d > d_max)
+            {
+                d_max = d;
+                i_max = i;
+            }
+        }
+    }
+
+    //Did we find any point
+    if (i_max>0)
+    {
+
+        //Process first interval
+        qh(s, i_max, points, ch);
+
+        //Add furthest point to CH
+        ch.push_back(points[i_max]);
+
+        //Process second part of interval
+        qh(i_max, e, points, ch);
+    }
+}
+
+int Algorithms::getPointLinePosition(const QPoint &p, const QPoint &p1, const QPoint &p2)
 {
     //Vector u = p2-p1 and v = p2-p
     const double ux = p2.x() - p1.x();
@@ -57,211 +197,52 @@ int Algorithms::getPointLinePosition(const QPointF &p, const QPointF &p1, const 
     return -1;
 }
 
-vecQPoint Algorithms::jarvisScan(vecQPoint points)
+std::vector<QPoint> Algorithms::jarvis(std::vector<QPoint> points)
 {
-    // Convex hull by Jarvis Scan
-    vecQPoint ch;
+    //Convex hull by jarvis
+    std::vector<QPoint> ch;
 
-    // Find points q,s
-    /*
-    qSort(points.begin(),points.end(),SortByYAsc());
-    QPointF q = points[0];
-    qSort(points.begin(),points.end(),SortByXAsc());
-    QPointF s = points[0];
-    */
-    QVector<qreal> x;
-    QVector<qreal> y;
-
-    for (int i=0;i<points.size();i++){
-        x.push_back(points[i].x());
-        y.push_back(points[i].y());
-    }
-
-    qSort(x.begin(),x.end());
-    qreal s = x[0];
-
-    qSort(y.begin(),y.end());
-    qreal q_tmp = y[0];
-    QPointF q(0, q_tmp);
-
-    // QPointF q = qMin(y.begin(),y.end());;
-    // QPointF s = qMax(x.begin(),x.end());
+    //Possible:
+    sort(points.begin(),points.end(), SortByYAsc());
+    QPoint q = points[0];
+    sort(points.begin(),points.end(), SortByXAsc());
+    QPoint s = points[0];
 
 
-    // Create initial edge
-    QPointF pjj(s,q.y());
-    QPointF pj = q;
+    //Find q,s
+  //  QPoint q = min (points.begin(),points.end(), sortByYAsc());
+    //QPoint s = min (points.begin(),points.end(), sortByXAsc());
 
-    // Add q to Convec hull
-    ch.push_back(pj);
+    //Create initial edge
+    QPoint pjj(s.x(),q.y());
+    QPoint pj = q;
 
-    // Constract Convex Hull
-    do{
+    //Add q to ch
+    ch.push_back(q);
+
+    //Construct convex hull
+    do
+    {
         int idx_max = -1;
         double omg_max = 0;
-        // double dist_max = 0;
 
-        for(int i=0; i<points.size();i++){
+        for (int i=0;i<points.size();i++)
+        {
             double omg = getTwoVectorsOrientation(pj,pjj,pj,points[i]);
-            if(omg > omg_max){
+            if (omg > omg_max)
+            {
                 omg_max = omg;
                 idx_max = i;
             }
-            // TODO: For omg == omg_max, after d > dist_max
-        }
+            //Resolve colinear points
 
-        // Add point with max omega to Convex hull
+        }
+        //Add point pi to ch
         ch.push_back(points[idx_max]);
 
-        // Assign points
+        //Assign points
         pjj = pj;
-        pj  = points[idx_max];
-
+        pj = points[idx_max];
     }while(pj != q);
-
-
     return ch;
-
-}
-
-void Algorithms::qHull(const vecQPoint &points){
-
-    vecQPoint ch, uh, lh;
-    std::sort(points.begin(), points.end(), SortByXAsc());
-
-    // Find q1, q3
-    QPointF q1 = points[0];
-    QPointF q3 = points[points.size()-1];
-
-    // Reordet to UH (Upper Hull), LH (Lower Hull)
-    uh.push_back(q1);
-    uh.push_back(q3);
-
-    lh.push_back(q1);
-    lh.push_back(q3);
-
-    for (int i=0; i<points.size(); i++){
-
-        // Add to UH
-        if(getPointLinePosition(points[i], q1, q3) == 1)
-        {
-            uh.push_back(points[i]);
-        }
-
-        // Add to LH
-        else if(getPointLinePosition(points[i], q1, q3) == 0)
-        {
-            lh.push_back(points[i]);
-        }
-
-    }
-
-    ch.push_back(q3);
-    qh(1, 0, uh, ch);
-    ch.push_back(q1);
-    qh(0,1,lh,ch);
-
-}
-
-void Algorithms::qh(const int s, const int e, const vecQPoint points, vecQPoint &ch){
-    int i_max = -1;
-    double d_max = 0;
-
-    // Process all points
-    for (int i=0; i<points.size(); i++){
-
-        // Is a point in the right half-plane?
-        if(getPointLinePosition(points[i], points[s], points[e]) == 1)
-        {
-            // Compute distance
-            double d = getPointLineDistance(points[i], points[s], points[e]);
-
-            // Compare to max
-            if (d > d_max){
-                d_max = d;
-                i_max = i;
-            }
-        }
-
-    }
-
-    // Did we find any point
-    if (i_max > 0){
-
-        // Process first part of interval
-        qh(s,i_max,points,ch);
-
-        // Add furthest point to CH
-        ch.push_back(points[i_max]);
-
-        // Process second part of interval
-        qh(i_max,e ,points,ch);
-    }
-}
-
-vecQPoint Algorithms::incr(vecQPoint points){
-
-    vecQPoint CH;
-    const unsigned int m = points.size();
-
-    // Sort points by X
-    std::sort(points.begin(), points.end(), SortByXAsc());
-
-    // Lists of next and previos points of CH
-    std::vector<unsigned int> p(m),n(m);
-
-    // Create initial approximation of CH
-    p[0] = 1;
-    n[0] = 1;
-    p[1] = 0;
-    n[1] = 0;
-
-    // Incremental insertion: add all points one by one
-    for(int i=0;i<m;i++)
-    {
-        // Point in the left halfplane
-        if(getPointLinePosition(points[i],points[p[i-1]],points[i-1]) == 1)
-        {
-            // Join point and its previous/next vertices
-            p[i] = i-1;
-            n[i] = n[i-1];
-        }
-
-        // Point in the right halfplane
-        else
-        {
-            // Join point and its previous/next vertices
-            p[i] = p[i-1];
-            n[i] = i-1;
-        }
-
-        // Set path to i
-        n[p[i]] = i;
-        p[n[i]] = i;
-
-        // Fix upper tangent
-        while(getPointLinePosition(points[n[n[i]]], points[i], points[n[i]]) < 1)
-        {
-            p[n[n[i]]] = i;
-            n[i] = n[n[i]];
-        }
-
-        // Fix lower points
-        while(getPointLinePosition(points[p[p[i]]], points[p[i]], points[i]) == 1)
-        {
-            n[p[p[i]]] = i;
-            p[i] = p[p[i]];
-        }
-
-        // Convert Circular list to the list of points
-        CH.push_back(points[0]);
-        int idx = n[0];
-        while (idx != 0)
-        {
-            CH.push_back(points[idx]);
-            idx = n[idx];
-        }
-
-        return CH;
-    }
 }

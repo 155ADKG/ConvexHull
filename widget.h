@@ -15,11 +15,6 @@ public:
     explicit Widget(QWidget *parent = 0);
     ~Widget();
 
-private slots:
-    void on_pushGen_clicked();
-
-    void on_comboTypeGen_currentIndexChanged(int index);
-
 private:
     Ui::Widget *ui;
 };

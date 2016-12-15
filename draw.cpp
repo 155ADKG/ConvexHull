@@ -42,9 +42,9 @@ void Draw::paintEvent(QPaintEvent *e)
     pushGen = false;
 }
 
-QPointF Draw::generatePoint()
+QPoint Draw::generatePoint()
 {
-    QPointF point(rand()%700,rand()%700);
+    QPoint point(rand()%700,rand()%700);
 
     return point;
 }

@@ -8,8 +8,9 @@ class SortByXAsc
 public:
     SortByXAsc();
 
-    bool operator() (const QPointF &p1, const QPointF &p2){
-        return (p1.x() < p2.x()) || (p1.x() == p2.x()) && (p1.y() < p2.y());
+    bool operator() (const QPoint p1, const QPoint p2)
+    {
+        return p1.x() < p2.x();
     }
 };
 

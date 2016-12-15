@@ -2,37 +2,29 @@
 #define ALGORITHMS_H
 
 #include <QtGui>
-
-typedef QVector<QPointF> vecQPoint;
-
-enum typeGen
-{
-    RAND   =  0,
-    GRID  =   1,
-    CLUS   =  2
-};
-
-enum typeAlg
-{
-    JAR   =  0,
-    QCK  =   1,
-    INC   =  2
-};
+#include "sortbyxasc.h"
+#include "sortbyyasc.h"
 
 class Algorithms
 {
 public:
     Algorithms(){};
-    static double getTwoVectorsOrientation(const QPointF &p1, const QPointF &p2, const QPointF &p3, const QPointF &p4);
-    static double getPointLineDistance(const QPointF &p, const QPointF &p1, const QPointF &p2);
-    static int getPointLinePosition(const QPointF &p, const QPointF &p1, const QPointF &p2);
 
-    static vecQPoint jarvisScan(vecQPoint points);
-    static void qHull(const vecQPoint &points);
-    static vecQPoint incr(vecQPoint points);
+    static std::vector<QPoint> jarvis(std::vector<QPoint> points);
+
+    static double getTwoVectorsOrientation(const QPoint &p1, const QPoint &p2, const QPoint &p3, const QPoint &p4);
+
+    static double getPointLineDistance(const QPoint p, const QPoint p1, const QPoint p2);
+
+    static std::vector<QPoint> qhull(std::vector<QPoint> points);
+
+    static int getPointLinePosition(const QPoint &p, const QPoint &p1, const QPoint &p2);
+
+    static std::vector<QPoint> incr(std::vector<QPoint> points);
 
 private:
-    static void qh(const int s, const int e, const vecQPoint points, vecQPoint &ch);
+    static void qh(const int s, const int e, const std::vector<QPoint> &points, std::vector<QPoint> ch);
+
 };
 
 #endif // ALGORITHMS_H

@@ -1,6 +1,6 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2016-11-15T11:15:41
+# Project created by QtCreator 2016-12-15T10:15:59
 #
 #-------------------------------------------------
 
@@ -8,21 +8,21 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = CH
+TARGET = ConvexHull
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
         widget.cpp \
-    sortbyyasc.cpp \
-    sortbyxasc.cpp \
     algorithms.cpp \
+    sortbyxasc.cpp \
+    sortbyyasc.cpp \
     draw.cpp
 
 HEADERS  += widget.h \
-    sortbyyasc.h \
-    sortbyxasc.h \
     algorithms.h \
+    sortbyxasc.h \
+    sortbyyasc.h \
     draw.h
 
 FORMS    += widget.ui
