@@ -27,15 +27,18 @@ void Draw::paintEvent(QPaintEvent *e)
         }
     }else{
 
-        if(points.size()>0){
+        if(pushAlg == true && points.size()>0){
 
-            // Draw point
+            // Draw points
             for(int i=0; i<countPoints; i++){
                 painter.drawEllipse(points[i].x(), points[i].y(), r, r);
             }
 
-            // Call current algorithm
             convexHull.clear();
+
+            // Call current algorithm with timing
+            QTime myTimer;
+            myTimer.start();
 
             if(typeAlgorithm == QCK){
                 convexHull = Algorithms::qhull(points);
@@ -46,29 +49,26 @@ void Draw::paintEvent(QPaintEvent *e)
             }
             qDebug() << convexHull.size();
 
+            nMillisec = myTimer.elapsed();
+
+            qDebug() << nMillisec;
+
             QVector<QPoint> QConvexHull = QVector<QPoint>::fromStdVector(convexHull);
             painter.drawPolygon(QConvexHull);
 
         }
 
-        //QVector<QPoint> QConvexHull = QVector<QPoint>::fromStdVector(convexHull);
-
-        //painter.drawPolygon(QConvexHull);
-        //painter.drawPolyline(convexHull.data(), static_cast<int>(convexHull.size()));
     }
-
-
-    //typeGenerate
-
 
     painter.end();
 
     pushGen = false;
+    pushAlg = false;
 }
 
 QPoint Draw::generatePoint()
 {
-    QPoint point(rand()%400,rand()%400);
+    QPoint point(rand()%800,rand()%800);
 
     return point;
 }

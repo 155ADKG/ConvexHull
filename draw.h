@@ -28,6 +28,8 @@ private:
     typeAlg typeAlgorithm;
     unsigned int countPoints;
     bool pushGen;
+    bool pushAlg;
+    int nMillisec;
 
 public:
     explicit Draw(QWidget *parent = 0);
@@ -39,7 +41,7 @@ public:
     void setTypeAlgorithm(typeAlg typeAlgorithm_){ typeAlgorithm = typeAlgorithm_; }
     void setCountPoints(unsigned int countPoints_){ countPoints = countPoints_; }
     void setPushGen(bool pushGen_){ pushGen = pushGen_; }
-
+    void setPushAlg(bool pushAlg_){ pushAlg = pushAlg_; }
 
 };
 

@@ -39,6 +39,9 @@ void Widget::on_comboTypeGen_currentIndexChanged(int index)
 
 void Widget::on_pushAlg_clicked()
 {
+    // Set pushGen clicked
+    ui->canvas->setPushAlg(true);
+
     repaint();
 }
 

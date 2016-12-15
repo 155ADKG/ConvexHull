@@ -2,6 +2,5 @@
 
 SortByYAsc::SortByYAsc()
 {
-
 }
 
