@@ -7,14 +7,14 @@ Draw::Draw(QWidget *parent) : QWidget(parent)
 
 void Draw::paintEvent(QPaintEvent *e)
 {
-    const unsigned int r = 2;
+    const unsigned int r = 4;
     QPainter painter(this);
     painter.begin(this);
 
     if(pushGen){
 
         // TODO: erase BRB !!!
-        countPoints = 1000;
+        countPoints = 100;
 
         points.clear();
         generatePoints();
@@ -63,17 +63,51 @@ void Draw::paintEvent(QPaintEvent *e)
     pushAlg = false;
 }
 
-QPoint Draw::generatePoint()
-{
-    QPoint point(rand()%800,rand()%800);
-
-    return point;
-}
-
 void Draw::generatePoints(){
 
-    for (int i=0;i<countPoints;i++)
+    if(typeGenerate == CLUS)
     {
-        points.push_back(generatePoint());
+        // TODO: vector rand QPoint - example 10 points
+        // TODO: for vector generate nex points in cluster
+        std::vector<QPoint> clus;
+        clus.clear();
+        for(int i=0;i<10;i++)
+        {
+            clus.push_back((QPoint(rand()%800,rand()%800)));
+        }
+
+        for(int i=0;i<clus.size();i++)
+        {
+            points.push_back(clus[i]);
+            points.push_back(QPoint(clus[i].x()+rand()%20,clus[i].y()+rand()%20));
+            points.push_back(QPoint(clus[i].x()+rand()%20,clus[i].y()+rand()%20));
+            points.push_back(QPoint(clus[i].x()+rand()%20,clus[i].y()+rand()%20));
+            points.push_back(QPoint(clus[i].x()+rand()%20,clus[i].y()+rand()%20));
+        }
+
+
+
+
+    }else if(typeGenerate == GRID)
+    {
+        for(float x=0; x<800; x += 800.0/sqrt(countPoints))
+        {
+            for(float y=0; y<800; y += 800.0/sqrt(countPoints))
+            {
+                points.push_back(QPoint(x,y));
+
+                // Exception for QPoint - we work with integer..
+                if (points.size() == countPoints)
+                    break;
+            }
+        }
     }
+    else
+    {
+        for (int i=0;i<countPoints;i++)
+        {
+            points.push_back(QPoint(rand()%800,rand()%800));
+        }
+    }
+
 }
