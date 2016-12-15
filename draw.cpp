@@ -18,6 +18,7 @@ void Draw::paintEvent(QPaintEvent *e)
 
         points.clear();
         generatePoints();
+
         // vector.clear();
 
         // Draw point
@@ -25,13 +26,36 @@ void Draw::paintEvent(QPaintEvent *e)
             painter.drawEllipse(points[i].x(), points[i].y(), r, r);
         }
     }else{
-        // TODO: Call algorithms / Jarvis Scan
-        convexHull.clear();
-        //convexHull = Algorithms::jarvisScan(points);
 
-        //painter.drawPolygon(convexHull);
+        if(points.size()>0){
+
+            // Draw point
+            for(int i=0; i<countPoints; i++){
+                painter.drawEllipse(points[i].x(), points[i].y(), r, r);
+            }
+
+            // Call current algorithm
+            convexHull.clear();
+
+            if(typeAlgorithm == QCK){
+                convexHull = Algorithms::qhull(points);
+            }else if(typeAlgorithm == INC){
+                convexHull = Algorithms::incr(points);
+            }else{
+                convexHull = Algorithms::jarvis(points);
+            }
+            qDebug() << convexHull.size();
+
+            QVector<QPoint> QConvexHull = QVector<QPoint>::fromStdVector(convexHull);
+            painter.drawPolygon(QConvexHull);
+
+        }
+
+        //QVector<QPoint> QConvexHull = QVector<QPoint>::fromStdVector(convexHull);
+
+        //painter.drawPolygon(QConvexHull);
+        //painter.drawPolyline(convexHull.data(), static_cast<int>(convexHull.size()));
     }
-
 
 
     //typeGenerate
@@ -44,7 +68,7 @@ void Draw::paintEvent(QPaintEvent *e)
 
 QPoint Draw::generatePoint()
 {
-    QPoint point(rand()%700,rand()%700);
+    QPoint point(rand()%400,rand()%400);
 
     return point;
 }
