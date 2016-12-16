@@ -14,7 +14,7 @@ void Draw::paintEvent(QPaintEvent *e)
     if(pushGen){
 
         // TODO: erase BRB !!!
-        countPoints = 10000;
+        countPoints = 1000000;
 
         points.clear();
         generatePoints();

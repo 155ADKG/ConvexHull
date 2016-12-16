@@ -1,4 +1,5 @@
 #include "algorithms.h"
+#include <QDebug>
 
 double Algorithms::getTwoVectorsOrientation(const QPoint &p1, const QPoint &p2, const QPoint &p3, const QPoint &p4)
 {
@@ -10,7 +11,6 @@ double Algorithms::getTwoVectorsOrientation(const QPoint &p1, const QPoint &p2, 
 
     const double pi =2.0*asin(1.0);
     return acos((ux*vx + uy*vy)/(sqrt(ux*ux+uy*uy)*sqrt(vx*vx+vy*vy)))*(180/pi);
-
 }
 
 
@@ -74,19 +74,24 @@ std::vector<QPoint> Algorithms::incr(std::vector<QPoint> points)
         p[n[i]] = i;
 
         //Fix upper tangent
-        while (getPointLinePosition(points[n[n[i]]],points[i],points[n[i]])<1)
+        while (getPointLinePosition(points[n[n[i]]],points[i],points[n[i]])==0)
         {
-            p[n[n[i]]] = i;
+            p[n[i]] = i;
             n[i] = n[n[i]];
+
+            qDebug()<<"i: "<<i;
+            qDebug()<<"n[i]: "<<n[i];
+            qDebug()<<"p[n[n[i]]]"<<p[n[n[i]]];
+
         }
 
         //Fix lower tangent
         while (getPointLinePosition(points[p[p[i]]],points[p[i]],points[i])==1)
         {
-            n[p[p[i]]] = i;
+            n[p[i]] = i;
             p[i] = p[p[i]];
         }
-
+    }
         //Convert Circular list to the list of points
         CH.push_back(points[0]);
         int idx = n[0];
@@ -95,7 +100,7 @@ std::vector<QPoint> Algorithms::incr(std::vector<QPoint> points)
             CH.push_back(points[idx]);
             idx = n[idx];
         }
-    }
+
     return CH;
 }
 
