@@ -21,7 +21,7 @@ void Draw::paintEvent(QPaintEvent *e)
 
         // Draw point
         for(int i=0; i<countPoints; i++){
-            painter.drawEllipse(points[i].x(), points[i].y(), r, r);
+            painter.drawEllipse(points[i].x()-r/2, points[i].y()-r/2, r, r);
         }
 
     }else{

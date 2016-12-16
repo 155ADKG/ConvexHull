@@ -119,11 +119,11 @@ std::vector<QPoint> Algorithms::qhull(std::vector<QPoint> points)
     for (int i=0;i<points.size();i++)
     {
         //Add to UH
-        if(getPointLinePosition(q1,q3,points[i])==1)
+        if(getPointLinePosition(points[i],q1,q3)==1)
             uh.push_back(points[i]);
 
         //Add to LH
-        else if(getPointLinePosition(q1,q3,points[i])==0)
+        else if(getPointLinePosition(points[i],q1,q3)==0)
             lh.push_back(points[i]);
 
     }
@@ -139,18 +139,18 @@ std::vector<QPoint> Algorithms::qhull(std::vector<QPoint> points)
     return ch;
 }
 
-void Algorithms::qh(const int s, const int e, const std::vector<QPoint> &points, std::vector<QPoint> ch)
+void Algorithms::qh(const int s, const int e, const std::vector<QPoint> points, std::vector<QPoint> &ch)
 {
     int i_max = -1;
     double d_max = 0;
 
-    for(int i=0;i<points.size();i++)
+    for(int i=2;i<points.size();i++)
     {
-        if(getPointLinePosition(points[i],points[s],points[e]))
+        if(getPointLinePosition(points[i],points[s],points[e])==0)
         {
             double d = getPointLineDistance(points[i],points[s],points[e]);
 
-            //Compare to dmax
+            //Compare to dmax qh(s, i_max, points, ch);
             if (d > d_max)
             {
                 d_max = d;
@@ -214,7 +214,7 @@ std::vector<QPoint> Algorithms::jarvis(std::vector<QPoint> points)
     //QPoint s = min (points.begin(),points.end(), sortByXAsc());
 
     //Create initial edge
-    QPoint pjj(s.x(),q.y());
+    QPoint pjj(s.x()-1,q.y());
     QPoint pj = q;
 
     //Add q to ch

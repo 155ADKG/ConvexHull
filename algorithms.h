@@ -23,7 +23,7 @@ public:
     static std::vector<QPoint> incr(std::vector<QPoint> points);
 
 private:
-    static void qh(const int s, const int e, const std::vector<QPoint> &points, std::vector<QPoint> ch);
+    static void qh(const int s, const int e, const std::vector<QPoint> points, std::vector<QPoint> &ch);
 
 };
 
