@@ -114,7 +114,7 @@ std::vector<QPoint> Algorithms::incr(std::vector<QPoint> points)
         }
 
         //Fix lower tangent
-        while (getPointLinePosition(points[p[p[i]]],points[p[i]],points[i])==1)
+        while (getPointLinePosition(points[p[p[i]]],points[p[i]],points[i])==0)
         {
             n[p[i]] = i;
             p[i] = p[p[i]];
