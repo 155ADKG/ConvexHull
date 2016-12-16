@@ -1,6 +1,11 @@
 #include "algorithms.h"
 #include <QDebug>
 
+std::vector<QPoint> Algorithms::graham(std::vector<QPoint> points)
+{
+
+}
+
 double Algorithms::getTwoVectorsOrientation(const QPoint &p1, const QPoint &p2, const QPoint &p3, const QPoint &p4)
 {
     //Vector u = p2-p1 and v = p4-p3
@@ -225,6 +230,7 @@ std::vector<QPoint> Algorithms::jarvis(std::vector<QPoint> points)
     {
         int idx_max = -1;
         double omg_max = 0;
+        double d_max = 0;
 
         for (int i=0;i<points.size();i++)
         {
@@ -233,6 +239,19 @@ std::vector<QPoint> Algorithms::jarvis(std::vector<QPoint> points)
             {
                 omg_max = omg;
                 idx_max = i;
+                d_max = sqrt((points[i].x()-pj.x())*(points[i].x()-pj.x()) + (points[i].y()-pj.y())*(points[i].y()-pj.y()));
+            }
+            else if (omg == omg_max)
+            {
+                double d = sqrt((points[i].x()-pj.x())*(points[i].x()-pj.x()) + (points[i].y()-pj.y())*(points[i].y()-pj.y()));
+                if(d_max < d)
+                {
+                    omg_max = omg;
+                    idx_max = i;
+                    d_max = d;
+                }
+
+
             }
             //Resolve colinear points
 
