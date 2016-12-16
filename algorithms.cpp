@@ -78,11 +78,6 @@ std::vector<QPoint> Algorithms::incr(std::vector<QPoint> points)
         {
             p[n[i]] = i;
             n[i] = n[n[i]];
-
-            qDebug()<<"i: "<<i;
-            qDebug()<<"n[i]: "<<n[i];
-            qDebug()<<"p[n[n[i]]]"<<p[n[n[i]]];
-
         }
 
         //Fix lower tangent

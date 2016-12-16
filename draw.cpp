@@ -14,7 +14,7 @@ void Draw::paintEvent(QPaintEvent *e)
     if(pushGen){
 
         // TODO: erase BRB !!!
-        countPoints = 1000000;
+        countPoints = 1000;
 
         points.clear();
         generatePoints();
@@ -50,6 +50,7 @@ void Draw::paintEvent(QPaintEvent *e)
             time_alg = myTimer.elapsed();
 
             QVector<QPoint> QConvexHull = QVector<QPoint>::fromStdVector(convexHull);
+            painter.setPen(QPen(Qt::magenta, 2));
             painter.drawPolygon(QConvexHull);
 
         }
@@ -64,13 +65,14 @@ void Draw::paintEvent(QPaintEvent *e)
 
 void Draw::generatePoints(){
 
-    const int win_size = 800;
+    unsigned int win_w = this->width()-20;
+    unsigned int win_h = this->height()-20;
 
     if(typeGenerate == CLUS)
     {
         while (points.size() < countPoints)
         {
-            QPoint pivot(rand()%win_size,rand()%win_size);
+            QPoint pivot(rand()%win_w,rand()%win_h);
             points.push_back(pivot);
 
             for(int i=0; i<rand()%100; i++)
@@ -86,9 +88,9 @@ void Draw::generatePoints(){
     }
     else if(typeGenerate == GRID)
     {
-        for(float x=0; x<win_size; x += win_size/sqrt(countPoints))
+        for(float x=0; x<win_w; x += win_w/sqrt(countPoints))
         {
-            for(float y=0; y<win_size; y += win_size/sqrt(countPoints))
+            for(float y=0; y<win_h; y += win_h/sqrt(countPoints))
             {
                 points.push_back(QPoint(x,y));
 
@@ -104,7 +106,7 @@ void Draw::generatePoints(){
     {
         for (int i=0;i<countPoints;i++)
         {
-            points.push_back(QPoint(rand()%win_size,rand()%win_size));
+            points.push_back(QPoint(rand()%win_w,rand()%win_h));
         }
     }
 

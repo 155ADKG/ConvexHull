@@ -13,147 +13,150 @@
   <property name="windowTitle">
    <string>Widget</string>
   </property>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>20</x>
-     <y>10</y>
-     <width>962</width>
-     <height>822</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="Draw" name="canvas" native="true">
-      <property name="minimumSize">
-       <size>
-        <width>820</width>
-        <height>820</height>
-       </size>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Number of Points</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="lineCount"/>
-      </item>
-      <item>
-       <widget class="QComboBox" name="comboTypeGen">
-        <item>
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="Draw" name="canvas" native="true">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>3</horstretch>
+         <verstretch>3</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>820</width>
+         <height>820</height>
+        </size>
+       </property>
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Drawing area.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>Random</string>
+          <string>Number of Points</string>
          </property>
-        </item>
-        <item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="lineCount"/>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboTypeGen">
+         <item>
+          <property name="text">
+           <string>Random</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Grid</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Cluster</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushGen">
          <property name="text">
-          <string>Grid</string>
+          <string>Generate</string>
          </property>
-        </item>
-        <item>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>288</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_2">
          <property name="text">
-          <string>Cluster</string>
+          <string>Algorithms</string>
          </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushGen">
-        <property name="text">
-         <string>Generate</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>288</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>Algorithms</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QComboBox" name="comboTypeAlg">
-        <item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboTypeAlg">
+         <item>
+          <property name="text">
+           <string>Jarvis Scan</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Quick Hull</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Incremental</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushAlg">
          <property name="text">
-          <string>Jarvis Scan</string>
+          <string>Find Convex Hull</string>
          </property>
-        </item>
-        <item>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>88</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_timing">
          <property name="text">
-          <string>Quick Hull</string>
+          <string/>
          </property>
-        </item>
-        <item>
-         <property name="text">
-          <string>Incremental</string>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-        </item>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushAlg">
-        <property name="text">
-         <string>Find Convex Hull</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>88</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_timing">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer_3">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>38</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-     </layout>
-    </item>
-   </layout>
-  </widget>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>38</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
