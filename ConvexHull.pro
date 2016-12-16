@@ -17,12 +17,14 @@ SOURCES += main.cpp\
     algorithms.cpp \
     sortbyxasc.cpp \
     sortbyyasc.cpp \
-    draw.cpp
+    draw.cpp \
+    sortdouble.cpp
 
 HEADERS  += widget.h \
     algorithms.h \
     sortbyxasc.h \
     sortbyyasc.h \
-    draw.h
+    draw.h \
+    sortdouble.h
 
 FORMS    += widget.ui

@@ -3,6 +3,34 @@
 
 std::vector<QPoint> Algorithms::graham(std::vector<QPoint> points)
 {
+    std::vector<QPoint> ch;
+
+    //sort points by y
+    sort(points.begin(),points.end(), SortByYAsc());
+    QPoint q = points[0];
+    QPoint x1(-100,q.y());
+
+
+    std::vector<double> omegas;
+    for (int i=0;i<points.size();i++)
+    {
+        omegas.push_back(getTwoVectorsOrientation(q,x1,q,points[i]));
+    }
+    std::vector<int> indexs;
+    std::vector<double> somegas = omegas;
+    std::sort(somegas.begin(),somegas.end(),SortDouble());
+    for (int i=0;i<omegas.size();i++)
+    {
+        for (int j=0;j<omegas.size();j++)
+        {
+            if (omegas[i] == somegas[j])
+            {
+                indexs[i] = j;
+            }
+        }
+    }
+
+
 
 }
 

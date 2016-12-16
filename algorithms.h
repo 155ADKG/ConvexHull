@@ -4,6 +4,7 @@
 #include <QtGui>
 #include "sortbyxasc.h"
 #include "sortbyyasc.h"
+#include "sortdouble.h"
 
 class Algorithms
 {
