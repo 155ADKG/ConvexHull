@@ -15,15 +15,15 @@ public:
 
     static double getTwoVectorsOrientation(const QPoint &p1, const QPoint &p2, const QPoint &p3, const QPoint &p4);
 
-    static double getPointLineDistance(const QPoint p, const QPoint p1, const QPoint p2);
+    static double getPointLineDistance(const QPoint &p, const QPoint &p1, const QPoint &p2);
 
     static std::vector<QPoint> qhull(std::vector<QPoint> points);
 
     static int getPointLinePosition(const QPoint &p, const QPoint &p1, const QPoint &p2);
 
-    static std::vector<QPoint> incr(std::vector<QPoint> points);
+    static std::vector<QPoint> incr(std::vector<QPoint> &points);
 
-    static std::vector<QPoint> graham(std::vector<QPoint> points);
+    static std::vector<QPoint> graham(std::vector<QPoint> &points);
 
 private:
     static void qh(const int s, const int e, const std::vector<QPoint> points, std::vector<QPoint> &ch);

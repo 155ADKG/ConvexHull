@@ -14,7 +14,7 @@ void Draw::paintEvent(QPaintEvent *e)
     if(pushGen){
 
         // TODO: erase BRB !!!
-        countPoints = 1000;
+        countPoints = 10000;
 
         points.clear();
         generatePoints();
@@ -43,6 +43,8 @@ void Draw::paintEvent(QPaintEvent *e)
                 convexHull = Algorithms::qhull(points);
             }else if(typeAlgorithm == INC){
                 convexHull = Algorithms::incr(points);
+            }else if(typeAlgorithm == GRH){
+                convexHull = Algorithms::graham(points);
             }else{
                 convexHull = Algorithms::jarvis(points);
             }

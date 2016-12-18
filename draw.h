@@ -15,7 +15,9 @@ enum typeAlg
 {
     JAR   =  0,
     QCK  =   1,
-    INC   =  2
+    INC   =  2,
+
+    GRH = 3
 };
 
 class Draw : public QWidget

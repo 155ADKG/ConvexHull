@@ -1,7 +1,7 @@
 #include "algorithms.h"
 #include <QDebug>
 
-std::vector<QPoint> Algorithms::graham(std::vector<QPoint> points)
+std::vector<QPoint> Algorithms::graham(std::vector<QPoint> &points)
 {
     std::vector<QPoint> ch;
 
@@ -12,27 +12,69 @@ std::vector<QPoint> Algorithms::graham(std::vector<QPoint> points)
 
 
     std::vector<double> omegas;
-    for (int i=0;i<points.size();i++)
+    for (unsigned int i=0;i<points.size();i++)
     {
         omegas.push_back(getTwoVectorsOrientation(q,x1,q,points[i]));
     }
     std::vector<int> indexs;
     std::vector<double> somegas = omegas;
+    std::vector<QPoint> spoints = points;
     std::sort(somegas.begin(),somegas.end(),SortDouble());
-    for (int i=0;i<omegas.size();i++)
+    for (unsigned int i=0;i<omegas.size();i++)
     {
-        for (int j=0;j<omegas.size();j++)
+        for (unsigned int j=0;j<omegas.size();j++)
         {
             if (omegas[i] == somegas[j])
             {
-                indexs[i] = j;
+                spoints[j] = points[i];
             }
         }
     }
 
+    for(unsigned int i=0; i<somegas.size()-1;i++)
+    {
+        for(unsigned int j=i+1;j<somegas.size();j++)
+        {
+            // Searching for two same angles
+            if(somegas[i]==somegas[j])
+            {
+                double di = sqrt((spoints[i].x()-q.x())*(spoints[i].x()-q.x()) + (spoints[i].y()-q.y())*(spoints[i].y()-q.y()));
+                double dj = sqrt((spoints[j].x()-q.x())*(spoints[j].x()-q.x()) + (spoints[j].y()-q.y())*(spoints[j].y()-q.y()));
 
+                // Deletion points with shortest distance from q
+                if(di>dj)
+                {
+                    spoints.erase(spoints.begin() + j);
+                } else
+                {
+                    spoints.erase(spoints.begin() + i);
+                }
+            }
+        }
+    }
 
+    QStack<QPoint> Q;
+    Q.push(q);
+    Q.push(spoints[1]);
+
+    unsigned int j = 2;
+    unsigned int n = spoints.size();
+
+    while(j<n)
+    {
+        QPoint top = Q.top();
+        Q.top();
+
+        if(getPointLinePosition(spoints[j],Q.top(),top)==1)
+        {
+            Q.push(top);
+            Q.push(spoints[j]);
+            j++;
+        }
+    }
+    return Q.toStdVector();
 }
+
 
 double Algorithms::getTwoVectorsOrientation(const QPoint &p1, const QPoint &p2, const QPoint &p3, const QPoint &p4)
 {
@@ -47,7 +89,7 @@ double Algorithms::getTwoVectorsOrientation(const QPoint &p1, const QPoint &p2, 
 }
 
 
-double Algorithms::getPointLineDistance(const QPoint p, const QPoint p1, const QPoint p2)
+double Algorithms::getPointLineDistance(const QPoint &p, const QPoint &p1, const QPoint &p2)
 {
     double x = p.x();
     double y = p.y();
@@ -62,7 +104,7 @@ double Algorithms::getPointLineDistance(const QPoint p, const QPoint p1, const Q
     return d;
 }
 
-std::vector<QPoint> Algorithms::incr(std::vector<QPoint> points)
+std::vector<QPoint> Algorithms::incr(std::vector<QPoint> &points)
 {
     const unsigned int m=points.size();
 
@@ -81,8 +123,14 @@ std::vector<QPoint> Algorithms::incr(std::vector<QPoint> points)
     n[1] = 0;
 
     //Incremental insertion: add all points one by one
-    for(int i=2;i<m;i++)
+    for(unsigned int i=2;i < m;i++)
     {
+
+        for (unsigned int j=i+1;j<m;j++){
+            if(points[i]==points[j]){
+                points.erase(points.begin()+j);
+            }
+        }
 
         //Point in the left halfplane
         if(getPointLinePosition(points[i],points[p[i-1]],points[i-1])==1)
@@ -109,16 +157,19 @@ std::vector<QPoint> Algorithms::incr(std::vector<QPoint> points)
         //Fix upper tangent
         while (getPointLinePosition(points[n[n[i]]],points[i],points[n[i]])==0)
         {
-            p[n[i]] = i;
+            p[n[n[i]]] = i;
             n[i] = n[n[i]];
         }
 
         //Fix lower tangent
+       // qDebug()<<getPointLinePosition(points[i],points[p[i]],points[p[p[i]]]);
+
         while (getPointLinePosition(points[p[p[i]]],points[p[i]],points[i])==0)
         {
-            n[p[i]] = i;
+            n[p[p[i]]] = i;
             p[i] = p[p[i]];
         }
+
     }
         //Convert Circular list to the list of points
         CH.push_back(points[0]);
@@ -149,7 +200,7 @@ std::vector<QPoint> Algorithms::qhull(std::vector<QPoint> points)
     lh.push_back(q1);
     lh.push_back(q3);
 
-    for (int i=0;i<points.size();i++)
+    for (unsigned int i=0;i<points.size();i++)
     {
         //Add to UH
         if(getPointLinePosition(points[i],q1,q3)==1)
@@ -177,7 +228,7 @@ void Algorithms::qh(const int s, const int e, const std::vector<QPoint> points, 
     int i_max = -1;
     double d_max = 0;
 
-    for(int i=2;i<points.size();i++)
+    for(unsigned int i=2;i<points.size();i++)
     {
         if(getPointLinePosition(points[i],points[s],points[e])==0)
         {
@@ -260,7 +311,7 @@ std::vector<QPoint> Algorithms::jarvis(std::vector<QPoint> points)
         double omg_max = 0;
         double d_max = 0;
 
-        for (int i=0;i<points.size();i++)
+        for (unsigned int i=0;i<points.size();i++)
         {
             double omg = getTwoVectorsOrientation(pj,pjj,pj,points[i]);
             if (omg > omg_max)

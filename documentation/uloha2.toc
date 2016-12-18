@@ -1,0 +1,31 @@
+\select@language {czech}
+\contentsline {section}{Zad\IeC {\'a}n\IeC {\'\i }}{3}
+\contentsline {section}{Rozbor problematiky}{3}
+\contentsline {subsection}{Paprskov\IeC {\'y} algoritmus}{3}
+\contentsline {subsection}{Metoda ov\IeC {\'\i }jen\IeC {\'\i }}{3}
+\contentsline {section}{Problematick\IeC {\'e} situace}{3}
+\contentsline {subsection}{Paprskov\IeC {\'y} algortimus}{3}
+\contentsline {subsection}{Metoda ov\IeC {\'\i }jen\IeC {\'\i }}{4}
+\contentsline {subsection}{Generov\IeC {\'a}n\IeC {\'\i } polygon\IeC {\r u}}{4}
+\contentsline {section}{Uk\IeC {\'a}zka vytvo\IeC {\v r}en\IeC {\'e} aplikace}{4}
+\contentsline {section}{Documentace}{5}
+\contentsline {subsection}{T\IeC {\v r}\IeC {\'\i }da Algorithms}{5}
+\contentsline {subsubsection}{jarvis}{5}
+\contentsline {subsubsection}{qhull}{5}
+\contentsline {subsubsection}{incr}{5}
+\contentsline {subsubsection}{graham}{5}
+\contentsline {subsubsection}{getPointLinePosition}{5}
+\contentsline {subsubsection}{getTwoVectorsOrientation}{6}
+\contentsline {subsubsection}{getPointLineDistance}{6}
+\contentsline {subsection}{T\IeC {\v r}\IeC {\'\i }da Draw}{7}
+\contentsline {subsubsection}{mousePressEvent}{7}
+\contentsline {subsubsection}{paintEvent}{7}
+\contentsline {subsubsection}{generatePoint}{7}
+\contentsline {subsubsection}{generatePolygons}{7}
+\contentsline {subsubsection}{setDrawWhat}{7}
+\contentsline {subsubsection}{getCursor}{8}
+\contentsline {subsection}{T\IeC {\v r}\IeC {\'\i }da MainForm}{8}
+\contentsline {subsubsection}{on\_pushGenerate\_clicked}{8}
+\contentsline {subsubsection}{on\_comboBox\_currentIndexChanged}{8}
+\contentsline {subsection}{sortByXAsc}{8}
+\contentsline {section}{Z\IeC {\'a}v\IeC {\v e}r}{9}

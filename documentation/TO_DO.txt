@@ -1,0 +1,10 @@
+- graham scan
+- incremental
+
+
+- smazat čas
+- odladit ui
+
+
+- testy (grafy)
+- technická
