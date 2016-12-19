@@ -3,7 +3,7 @@
 
 std::vector<QPoint> Algorithms::graham(std::vector<QPoint> &points)
 {
-    std::vector<QPoint> ch;
+
 
     //sort points by y
     sort(points.begin(),points.end(), SortByYAsc());
@@ -16,7 +16,7 @@ std::vector<QPoint> Algorithms::graham(std::vector<QPoint> &points)
     {
         omegas.push_back(getTwoVectorsOrientation(q,x1,q,points[i]));
     }
-    std::vector<int> indexs;
+
     std::vector<double> somegas = omegas;
     std::vector<QPoint> spoints = points;
     std::sort(somegas.begin(),somegas.end(),SortDouble());
@@ -31,12 +31,13 @@ std::vector<QPoint> Algorithms::graham(std::vector<QPoint> &points)
         }
     }
 
+    double eps = 1e-07;
     for(unsigned int i=0; i<somegas.size()-1;i++)
     {
         for(unsigned int j=i+1;j<somegas.size();j++)
         {
             // Searching for two same angles
-            if(somegas[i]==somegas[j])
+            if(fabs(somegas[i]-somegas[j])<eps)
             {
                 double di = sqrt((spoints[i].x()-q.x())*(spoints[i].x()-q.x()) + (spoints[i].y()-q.y())*(spoints[i].y()-q.y()));
                 double dj = sqrt((spoints[j].x()-q.x())*(spoints[j].x()-q.x()) + (spoints[j].y()-q.y())*(spoints[j].y()-q.y()));
@@ -49,29 +50,34 @@ std::vector<QPoint> Algorithms::graham(std::vector<QPoint> &points)
                 {
                     spoints.erase(spoints.begin() + i);
                 }
+
             }
         }
     }
+
 
     QStack<QPoint> Q;
     Q.push(q);
     Q.push(spoints[1]);
 
-    unsigned int j = 2;
-    unsigned int n = spoints.size();
-
-    while(j<n)
+    int j=2;
+    while(j<spoints.size())
     {
-        QPoint top = Q.top();
-        Q.top();
+        QPoint top = Q.pop();
+
 
         if(getPointLinePosition(spoints[j],Q.top(),top)==1)
         {
             Q.push(top);
             Q.push(spoints[j]);
             j++;
+
         }
+
+
     }
+
+
     return Q.toStdVector();
 }
 
