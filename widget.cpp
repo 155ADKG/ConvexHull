@@ -21,7 +21,6 @@ void Widget::on_pushGen_clicked()
         int value = text.toInt(&check_int);
         if(check_int)
             ui->canvas->setCountPoints(value);
-        // TODO: else QMessageError
         else
             ui->canvas->setCountPoints(0);
 

@@ -8,13 +8,41 @@ std::vector<QPoint> Algorithms::graham(std::vector<QPoint> &points)
     //sort points by y
     sort(points.begin(),points.end(), SortByYAsc());
     QPoint q = points[0];
-    QPoint x1(-100,q.y());
+    QPoint x1(-800,q.y());
 
 
     std::vector<double> omegas;
     for (unsigned int i=0;i<points.size();i++)
     {
         omegas.push_back(getTwoVectorsOrientation(q,x1,q,points[i]));
+    }
+
+    double eps = 1e-05;
+    for(unsigned int i=0; i<omegas.size();i++)
+    {
+        for(unsigned int j=i+1;j<omegas.size();j++)
+        {
+            // Searching for two same angles
+            if(fabs(omegas[i]-omegas[j])<eps)
+            {
+                double di = ((points[i].x()-q.x())*(points[i].x()-q.x()) + (points[i].y()-q.y())*(points[i].y()-q.y()));
+                double dj = ((points[j].x()-q.x())*(points[j].x()-q.x()) + (points[j].y()-q.y())*(points[j].y()-q.y()));
+
+                // Deletion points with shortest distance from q
+                if(di>dj)
+                {
+                    points.erase(points.begin() + j);
+                    omegas.erase(omegas.begin() + j);
+                }
+
+                else
+                {
+                    points.erase(points.begin() + i);
+                    omegas.erase(omegas.begin() + i);
+                }
+
+            }
+        }
     }
 
     std::vector<double> somegas = omegas;
@@ -31,52 +59,23 @@ std::vector<QPoint> Algorithms::graham(std::vector<QPoint> &points)
         }
     }
 
-    double eps = 1e-07;
-    for(unsigned int i=0; i<somegas.size()-1;i++)
-    {
-        for(unsigned int j=i+1;j<somegas.size();j++)
-        {
-            // Searching for two same angles
-            if(fabs(somegas[i]-somegas[j])<eps)
-            {
-                double di = sqrt((spoints[i].x()-q.x())*(spoints[i].x()-q.x()) + (spoints[i].y()-q.y())*(spoints[i].y()-q.y()));
-                double dj = sqrt((spoints[j].x()-q.x())*(spoints[j].x()-q.x()) + (spoints[j].y()-q.y())*(spoints[j].y()-q.y()));
-
-                // Deletion points with shortest distance from q
-                if(di>dj)
-                {
-                    spoints.erase(spoints.begin() + j);
-                } else
-                {
-                    spoints.erase(spoints.begin() + i);
-                }
-
-            }
-        }
-    }
-
-
     QStack<QPoint> Q;
     Q.push(q);
     Q.push(spoints[1]);
 
-    int j=2;
+    unsigned int j=2;
     while(j<spoints.size())
     {
         QPoint top = Q.pop();
-
 
         if(getPointLinePosition(spoints[j],Q.top(),top)==1)
         {
             Q.push(top);
             Q.push(spoints[j]);
             j++;
-
         }
 
-
     }
-
 
     return Q.toStdVector();
 }
@@ -110,7 +109,7 @@ double Algorithms::getPointLineDistance(const QPoint &p, const QPoint &p1, const
     return d;
 }
 
-std::vector<QPoint> Algorithms::incr(std::vector<QPoint> points)
+std::vector<QPoint> Algorithms::incr(std::vector<QPoint> &points)
 {
     const unsigned int m=points.size();
 
@@ -120,7 +119,7 @@ std::vector<QPoint> Algorithms::incr(std::vector<QPoint> points)
     //Sort points by X
     std::sort(points.begin(),points.end(),SortByXAsc());
 
-    points.erase(std::remove_if(points.begin(),points.end(),RemoveDuplicatePoints()),points.end());
+   // points.erase(std::remove_if(points.begin(),points.end(),RemoveDuplicatePoints()),points.end());
 
     //List of previous and next points of CH
     std::vector<unsigned int> p(m), n(m);
