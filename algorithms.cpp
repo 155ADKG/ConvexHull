@@ -110,14 +110,17 @@ double Algorithms::getPointLineDistance(const QPoint &p, const QPoint &p1, const
     return d;
 }
 
-std::vector<QPoint> Algorithms::incr(std::vector<QPoint> &points)
+std::vector<QPoint> Algorithms::incr(std::vector<QPoint> points)
 {
     const unsigned int m=points.size();
 
     std::vector<QPoint> CH;
 
+
     //Sort points by X
     std::sort(points.begin(),points.end(),SortByXAsc());
+
+    points.erase(std::remove_if(points.begin(),points.end(),RemoveDuplicatePoints()),points.end());
 
     //List of previous and next points of CH
     std::vector<unsigned int> p(m), n(m);
@@ -132,11 +135,11 @@ std::vector<QPoint> Algorithms::incr(std::vector<QPoint> &points)
     for(unsigned int i=2;i < m;i++)
     {
 
-        for (unsigned int j=i+1;j<m;j++){
-            if(points[i]==points[j]){
-                points.erase(points.begin()+j);
-            }
-        }
+//        for (unsigned int j=i+1;j<m;j++){
+//            if(points[i]==points[j]){
+//                points.erase(points.begin()+j);
+//            }
+//        }
 
         //Point in the left halfplane
         if(getPointLinePosition(points[i],points[p[i-1]],points[i-1])==1)

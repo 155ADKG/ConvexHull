@@ -5,6 +5,7 @@
 #include "sortbyxasc.h"
 #include "sortbyyasc.h"
 #include "sortdouble.h"
+#include "removeduplicatepoints.h"
 
 class Algorithms
 {
@@ -21,7 +22,7 @@ public:
 
     static int getPointLinePosition(const QPoint &p, const QPoint &p1, const QPoint &p2);
 
-    static std::vector<QPoint> incr(std::vector<QPoint> &points);
+    static std::vector<QPoint> incr(std::vector<QPoint> points);
 
     static std::vector<QPoint> graham(std::vector<QPoint> &points);
 

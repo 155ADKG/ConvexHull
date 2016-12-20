@@ -18,13 +18,15 @@ SOURCES += main.cpp\
     sortbyxasc.cpp \
     sortbyyasc.cpp \
     draw.cpp \
-    sortdouble.cpp
+    sortdouble.cpp \
+    removeduplicatepoints.cpp
 
 HEADERS  += widget.h \
     algorithms.h \
     sortbyxasc.h \
     sortbyyasc.h \
     draw.h \
-    sortdouble.h
+    sortdouble.h \
+    removeduplicatepoints.h
 
 FORMS    += widget.ui
