@@ -1,0 +1,420 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Programming/Coding Assignment
+% LaTeX Template
+%
+% This template has been downloaded from:
+% http://www.latextemplates.com
+%
+% Original author:
+% Ted Pavlic (http://www.tedpavlic.com)
+%
+% Note:
+% The \lipsum[#] commands throughout this template generate dummy text
+% to fill the template out. These commands should all be removed when 
+% writing assignment content.
+%
+% This template uses a Perl script as an example snippet of code, most other
+% languages are also usable. Configure them in the "CODE INCLUSION 
+% CONFIGURATION" section.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}       %  sdělí, že další text je kódován v utf-8
+\usepackage[czech]{babel}         %  zapne české dělení slov a české zvyklosti
+
+\usepackage{fancyhdr} % Required for custom headers
+\usepackage{lastpage} % Required to determine the last page for the footer
+\usepackage{extramarks} % Required for headers and footers
+\usepackage[usenames,dvipsnames]{color} % Required for custom colors
+\usepackage{graphicx} % Required to insert images
+\usepackage{listings} % Required for insertion of code
+\usepackage{courier} % Required for the courier font
+\usepackage{lipsum} % Used for inserting dummy 'Lorem ipsum' text into the template ... možný smazat ...
+
+% Margins
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1} % Line spacing
+
+% Set up the header and footer
+\pagestyle{fancy}
+
+%\lhead{\hmwkAuthorName} % Top left header
+%\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle} % Top center head
+\lhead{\hmwkClass: \hmwkTitle} % Top center head
+
+\rhead{\firstxmark} % Top right header
+\lfoot{\lastxmark} % Bottom left footer
+\cfoot{} % Bottom center footer
+\rfoot{Strana\ \thepage\ /\ \protect\pageref{LastPage}} % Bottom right footer
+\renewcommand\headrulewidth{0.4pt} % Size of the header rule
+\renewcommand\footrulewidth{0.4pt} % Size of the footer rule
+
+\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+%----------------------------------------------------------------------------------------
+%	CODE INCLUSION CONFIGURATION
+%----------------------------------------------------------------------------------------
+
+\definecolor{MyDarkGreen}{rgb}{0.0,0.4,0.0} % This is the color used for comments
+\lstloadlanguages{C++} % Load Perl syntax for listings, for a list of other languages supported see: ftp://ftp.tex.ac.uk/tex-archive/macros/latex/contrib/listings/listings.pdf
+\lstset{language=C++, % Use Perl in this example
+        frame=single, % Single frame around code
+        basicstyle=\small\ttfamily, % Use small true type font
+        keywordstyle=[1]\color{Blue}\bf, % Perl functions bold and blue
+        keywordstyle=[2]\color{Purple}, % Perl function arguments purple
+        keywordstyle=[3]\color{Blue}\underbar, % Custom functions underlined and blue
+        identifierstyle=, % Nothing special about identifiers                                         
+        commentstyle=\usefont{T1}{pcr}{m}{sl}\color{MyDarkGreen}\small, % Comments small dark green courier font
+        stringstyle=\color{Purple}, % Strings are purple
+        showstringspaces=false, % Don't put marks in string spaces
+        tabsize=5, % 5 spaces per tab
+        %
+        % Put standard Perl functions not included in the default language here
+        morekeywords={rand},
+        %
+        % Put Perl function parameters here
+        morekeywords=[2]{on, off, interp},
+        %
+        % Put user defined functions here
+        morekeywords=[3]{test},
+       	%
+        morecomment=[l][\color{Blue}]{...}, % Line continuation (...) like blue comment
+        numbers=left, % Line numbers on left
+        firstnumber=1, % Line numbers start with line 1
+        numberstyle=\tiny\color{Blue}, % Line numbers are blue and small
+        stepnumber=5 % Line numbers go in steps of 5
+}
+
+% Creates a new command to include a perl script, the first parameter is the filename of the script (without .pl), the second parameter is the caption
+\newcommand{\perlscript}[2]{
+\begin{itemize}
+\item[]\lstinputlisting[caption=#2,label=#1]{#1.cpp}
+\end{itemize}
+}
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT STRUCTURE COMMANDS
+%	Skip this unless you know what you're doing
+%----------------------------------------------------------------------------------------
+
+% Header and footer for when a page split occurs within a problem environment
+\newcommand{\enterProblemHeader}[1]{
+\nobreak\extramarks{#1}{#1 continued on next page\ldots}\nobreak
+\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
+}
+
+% Header and footer for when a page split occurs between problem environments
+\newcommand{\exitProblemHeader}[1]{
+\nobreak\extramarks{#1 (continued)}{#1 continued on next page\ldots}\nobreak
+\nobreak\extramarks{#1}{}\nobreak
+}
+
+\setcounter{secnumdepth}{0} % Removes default section numbers
+\newcounter{homeworkProblemCounter} % Creates a counter to keep track of the number of problems
+
+\newcommand{\homeworkProblemName}{}
+{
+\exitProblemHeader{\homeworkProblemName} % Header and footer after the environment
+}
+
+\newcommand{\problemAnswer}[1]{ % Defines the problem answer command with the content as the only argument
+\noindent\framebox[\columnwidth][c]{\begin{minipage}{0.98\columnwidth}#1\end{minipage}} % Makes the box around the problem answer and puts the content inside
+}
+
+%----------------------------------------------------------------------------------------
+%	NAME AND CLASS SECTION
+%----------------------------------------------------------------------------------------
+
+\newcommand{\hmwkTitle}{Konvexní obálka} % Assignment title
+\newcommand{\hmwkDueDate}{17.\ prosince\ 2016} % Due date
+\newcommand{\hmwkClass}{155ADKG - Algoritmy digitální kartografie a GIS} % Course/class
+%\newcommand{\hmwkClassTime}{} % Class/lecture time
+\newcommand{\hmwkClassInstructor}{Ing. Tomáš Bayer, Ph.D.} % Teacher/lecturer
+\newcommand{\hmwkAuthorName}{Bc.\,Petr Bezděka, Bc.\,Šimon Gajzler, Bc.\,Lukáš Středa} % Your name
+
+%----------------------------------------------------------------------------------------
+%	TITLE PAGE
+%----------------------------------------------------------------------------------------
+
+\title{
+\vspace{2in}
+\textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+\normalsize\vspace{0.1in}\small{Dne\ \hmwkDueDate}\\
+\vspace{0.1in}\large{\textit{\hmwkClassInstructor}}
+\vspace{3in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{} % Insert date here if you want it to appear below your name
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+
+\maketitle
+
+%----------------------------------------------------------------------------------------
+%	TABLE OF CONTENTS
+%----------------------------------------------------------------------------------------
+
+\setcounter{tocdepth}{1} % Uncomment this line if you don't want subsections listed in the ToC
+
+\newpage
+\tableofcontents
+\newpage
+
+%----------------------------------------------------------------------------------------
+%	ZADÁNÍ
+%----------------------------------------------------------------------------------------
+
+% To have just one problem per page, simply put a \clearpage after each problem
+
+%\section{Code C++}
+%Text before \dots
+%\begin{lstlisting}
+%for (int i=0; i<iterations;i++)
+%{
+%do something
+%}
+%\end{lstlisting}
+%Text after it \dots
+%\end{document}
+
+%Listing \ref{main} shows a C++ code.
+
+\section{Zadání}
+\emph{Vstup: množina} $P = \{p_1,\ldots, p_n\}, p_i = [x,y_i]$.\\
+
+\emph{Výstup:} $\mathcal{H}(P)$.\\
+
+Nad množinou $P$ implementujte následující algoritmy pro konstrukci $\mathcal{H}(P)$:
+
+\begin{itemize}
+\item Jarvis Scan.
+\item Quick Hull.
+\item Incremental Construction.\\
+\end{itemize}
+
+Vstupní množiny bodů včetně vygenerovaných konvexních obálek vhodně vizualizujte. Grafické rozhraní realizujte s~využitím frameworku QT. Dynamické datové struktury implementujte s využitím knihovny STL.\\
+\\
+Pro množiny $n\in <1000,1000000>$ vytvořte grafy ilustrující doby běhu algoritmů pro zvolená $n$. Měření proveďte pro různé typy vstupních množin (náhodná množina, rastr, clustrovaná data) opakovaně (10x) a různá $n$ (celkem 10) s~uvedením rozptylu. Naměřené údaje uspořádejte do přehledných tabulek.\\
+\\
+Zamyslete se nad problematikou možných singularit pro různé typy vstupních množin a možnými optimalizacemi. Zhodnoťte dosažené výsledky. Rozhodněte, která z~těchto metod je s~ohledem na~časovou složitost a typ vstupní množiny $P$ nejvhodnější.
+
+%----------------------------------------------------------------------------------------
+%	ROZBOR PROBLEMATTIKY
+%----------------------------------------------------------------------------------------
+\section{Rozbor problematiky}
+Problematika určování konvexní obálky je v GIS systémech mnohdy používaná jako pomocná struktura pro řadu algoritmů. Má využití v prvním odhadu tvaru prostorového jevu, v analýze tvarů objektu, analýze shluků. V kartografii slouží pro detekci tvaru a natočení budov, což přináší užitek v případě generalizace.\\
+
+Konvexní obálku chápeme jako minimální ohraničení určité množiny bodů. Žádný z těchto bodů nesmí být mimo obálku a pokud spojíme dva libovolné body z množiny úsečkou, tak se celá úsečka nachází uvnitř obálky.\\
+
+V~přednáškách a cvičeních jsme se seznámili s algoritmy  pro výpočet konvexních obálek a v následující části se těmito algoritmy budeme zabývat.
+
+\subsection{Quick Hull}
+Princip metody Quick Hull je založen na konstrukci dvou obálek, horní (upper) a dolní (lower). Rozdělení na horní a dolní obálku se provádí pomocí spojnice dvou bodů s extrémními souřadnicemi $x$ a to $q_1 = min(x_i)$ a $q_3 = max(x_i)$. Horní je pak logicky nad touto spojnicí. V případě orientované úsečky z $q_1$ do $q_3$ jsou pak body v horní obálce vlevo od této spojnice. Následně nad každou nalezenou stranou obálky hledáme nejvzdálenější bod ležící vpravo od této spojnice. Takový bod se stává novým bodem obálky a stávající stranu rozdělí na dvě nové. Tento postup je aplikován do vyčerpání všech bodů a to v obou částech konvexní obálky (horní i dolní) odděleně. Výsledná konvexní obálka je pak složena z obou částí.
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=0.6\columnwidth]{02quick} % Example image
+\caption{Quick Hull algorithm [2]}
+\label{fig:wind}
+\end{center}
+\end{figure}
+
+\subsection{Jarvis Scan}
+Jarvis Scan je metoda popisovaná jako balení dárku. Předpokladem algoritmu je, že ve zkoumané množině nejsou tři body na jedné přímce. Algoritmus dále počítá, v případě již neseřazené množiny, s jejím předspracováním. A to setříděním množiny podle hodnoty y a x a nalezení pivotů $q$ a $s$, kde $q_y = min(y)$ a $s_x = min(x)$. 
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.4\columnwidth]{02jarvis} % Example image
+\caption{Jarvis Scan (Zdroj: https://pl.wikipedia.org/wiki/Algorytm\_Jarvisa/)}
+\label{fig:ray}
+\end{center}
+\end{figure}
+
+Algoritmus je založen na principu, kdy hledáme maximální vnitříní úhel mezi stranou tvořenou posledními dvěma body obálky a dalším nalezeným bodem, který není v obálce.
+
+\subsection{Incremental Construction}
+Incremental Construction je metoda založená na principu postupném přidávání dobů zkoumanné množiny do konvexní obálky. Tvar konvexní obálky je tak modifikován, přičemž mohou při přidávání bodů nastat dva případy. Prvním je možnost, že bod leží uvnitř konvexní obálky a její tvar neovlivní a druhá možnost, že bod leží vně obálky . Tím ovlivní její tvar a je nutné najít horní a dolní tečny, procházející přidávaným bodem, kolmé na konvexní obálku. Test polohy zkoumaného bodu je prováděn Half Edge testem.\\
+
+Nalezení tečen se provádí testováním polohy incidujících stran $e_j, e_{j+1}$ vzhledem k přidávanému bodu. Pro dolní tečnu platí, že přidávaný bod je vlevo od $e_j$ a v pravo od $e_{j+1}$. Pro horní tečnu patí, že bod je vpravo od $e_j$ a vlevo od $e_{j+1}$.
+
+\subsection{Graham Scan}
+Graham Scan je metoda...\\
+
+\section{Problematické situace}
+\subsection{Jarvis Scan}
+Bylo nutné ošetřit..
+
+%----------------------------------------------------------------------------------------
+%	UKÁZKA APLIKACE
+%----------------------------------------------------------------------------------------
+\section{Ukázka vytvořené aplikace}
+Výsledná aplikace obsahuje ...
+%jedno tlačítku \emph{Generate}, kterým uživatel spustí vygenerování náhodných polygonů. Následně si vybere algoritmus z nabýdky comboboxu a kliknutím do mapy spustí výpočet. Pokud je zkoumaný bod nachází v polygonu barevně se zvýrazní.
+%\begin{figure}[htbp]
+%\begin{center}
+%\includegraphics[width=0.73\columnwidth]{} % Example image
+% \caption{Přiklad bodu mimo polygon}
+%\end{center}
+%\end{figure}
+%
+%\begin{figure}[htbp]
+%\begin{center}
+%\includegraphics[width=0.73\columnwidth]{} % Example image
+% \caption{Příklad bodu uvnitř polygonu}
+%\end{center}
+%\end{figure}
+
+%----------------------------------------------------------------------------------------
+%	DOKUMENTACE
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Dokumentace \label{sec:alg}}
+\subsection{Třída Algorithms}
+Třída \emph{Algorithms} obsahuje funkce:
+\begin{itemize}
+\item jarvis
+\item qhull
+\item incr
+\item graham
+\item getPointLinePosition
+\item getTwoVectorsOrientation
+\item getPointLineDistance
+\end{itemize}
+
+\subsubsection{jarvis}
+Do této funkce vstupuje jedna proměnná typu  \emph{std::vector$<$QPoint$>$}. Reprezentuje zkoumanou množinu bodů.\\
+Výstupem funkce je opět množina bodů uspořádaná do \emph{std::vector$<$QPoint$>$}. Množina bodů obsahuje právě ty body, které tvoří konvexní obálku. Tato funkce ja následně volána ve třídě \emph{Draw} (str. \pageref{sec:draw}).
+% opravit odkaz v textu
+
+\subsubsection{qhull}
+Do této funkce vstupuje jedna proměnná typu  \emph{std::vector$<$QPoint$>$}. Reprezentuje zkoumanou množinu bodů.\\
+Výstupem funkce je množina bodů uspořádaná do \emph{std::vector$<$QPoint$>$}, reprezentující konvexní obálku. Tento vektor je následně volán ze třídy \emph{Draw}.
+
+\subsubsection{incr}
+Do této funkce vstupuje jedna proměnná typu  \emph{std::vector$<$QPoint$>$}. Reprezentuje zkoumanou množinu bodů.\\
+Výstupem funkce je množina bodů uspořádaná do \emph{std::vector$<$QPoint$>$}, reprezentující konvexní obálku. Tento vektor je následně volán ze třídy \emph{Draw}.
+
+\subsubsection{graham}
+Do této funkce vstupuje jedna proměnná typu  \emph{std::vector$<$QPoint$>$}. Reprezentuje zkoumanou množinu bodů.\\
+Výstupem funkce je množina bodů uspořádaná do \emph{std::vector$<$QPoint$>$}, reprezentující konvexní obálku. Tento vektor je následně volán ze třídy \emph{Draw}.
+
+\subsubsection{getPointLinePosition}
+Do této funkce vstupují tři proměnné typu \emph{QPointF}.\\
+Výstupem funkce je hodnota typu integer, která reprezentuje polohu zkoumaného bodu (první proměnná) vůči vektoru daného druhou a třetí proměnnou. Výstup nabývá hodnoty 1 pokud je zkoumaný bod v levé polorovině od vektoru, 0 pokud je v pravé polorovině od vektoru a -1 pokud na přímce procházející vektorem.
+
+\subsubsection{getTwoVectorsOrientation}
+Do této funkce vstupují čtyři proměnné typu \emph{QPointF}.\\
+Výstupem funkce je hodnota typu double, která reprezentuje úhel ve stupních mezi vektory, které jsou tvořeny první a druhou proměnnou a třetí a čtvrtou proměnnou.
+
+\subsubsection{getPointLineDistance}
+Do této funkce vstupují tři proměnné typu \emph{QPointF}.\\
+Výstupem funkce je hodnota typu double, která reprezentuje vzdálenost zkoumaného bodu (první proměnná) vůči vektoru daného druhou a třetí proměnnou.
+
+\newpage
+\subsection{Třída Draw \label{sec:draw}}
+Třída Draw obsahuje privátní proměnné:
+\begin{itemize}
+\item \emph{Qvector$<$QPolygonF$>$} pols
+\item \emph{QPointF} cursor
+\item \emph{bool} ignoreDrawPols
+\item \emph{Qvector$<$bool$>$} results
+\item \emph{bool} draw\_what
+\end{itemize}
+
+Třída Draw obsahuje dále veřejnou proměnnou:
+\begin{itemize}
+\item \emph{int} typeAlgorithms
+\end{itemize}
+
+Třída Draw obsahuje dále funkce:
+\begin{itemize}
+\item mousePressEvent
+\item paintEvent
+\item generatePoint
+\item generatePolygons
+\item setDrawWhat
+\item getCursor
+\end{itemize}
+
+\subsubsection{mousePressEvent}
+Funkce se aktivuje kliknutím myší do oblasti \emph{QWidgetu} Canvas, který je propojený s třídou \emph{Draw}. Zavolá zvolený algoritmus (\emph{rayAlgorithm},\emph{ windingAlgorithm}) a naplní proměnnou \emph{results}. Následně zavolá funkci \emph{paintEvent} pomocí příkazu \emph{repaint()}.
+
+\subsubsection{paintEvent}
+Funkce je volána funkcí \emph{mousePressEvent} nebo po kliknutí na tlačítko \emph{Generate}. Pomocí privátní proměnné \emph{draw\_what} se zavolá funkce \emph{generatePolygons}, která naplní proměnnou \emph{pols} nebo se zvýrazní polygon v němž leží zkoumaný bod.
+
+\subsubsection{generatePoint}
+Funkce generující jeden náhodný bod typu\emph{ QPoint}.
+
+\subsubsection{generatePolygons}
+Funkce naplní proměnnou \emph{pols} náhodným počtem náhodně generovaných polygonů. Vstupní hodnota označuje počet generovaných bodů (volání funkce \emph{generatePoint}), z kterých se polygony vytváří.\\
+Funkce používá dvě funkce z třídy \emph{Algorithms} (\emph{getPointLinePosition}, \emph{getTwoVectorsOrientation}) a třídu \emph{sortByXAsc}. 
+
+\subsubsection{setDrawWhat}
+Funkce slouží k přepínání uživatelem zvoleného algoritmu.
+
+\subsubsection{getCursor}
+Funkce slouží k získání souřadnic zkoumaního bodu z polohy myši.
+
+\subsection{Třída MainForm}
+Třída \emph{MainForm} obsahuje funkce:
+\begin{itemize}
+\item on\_pushGenerate\_clicked
+\item on\_comboBox\_currentIndexChanged
+\end{itemize}
+
+\subsubsection{on\_pushGenerate\_clicked}
+Funkce se spouští kliknutím uživatele na tlačítko \emph{Generate} a příkazem \emph{repaint()} spustí funkci \emph{paintEvent} ve třídě \emph{Draw}.
+
+\subsubsection{on\_comboBox\_currentIndexChanged}
+Funkce se spouští změnou \emph{QComboBoxu} a předá informaci o uživatelem zvoleném algoritmu do třídy \emph{Draw}.
+
+\subsection{sortByXAsc}
+Třída \emph{sortByXAsc} slouží funkci \emph{generatePolygons} z třídy \emph{Draw} k vzestupnému setřídění úhlů.
+%----------------------------------------------------------------------------------------
+%	ZÁVĚR
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Závěr}
+Aplikace byla vytvořena dle zadání v QtCreator. Pro určení polohy bodu vůči polygonu byly vytvořeny dva algoritmy, mezi kterými si uživatel volí výběrem z comboBoxu. Generování polygonů probíhá na základě námi vytvořeného algoritmu po stisknutí tlačítka Generate. Uživatel klikem do kreslící oblasti určí skoumaný bod a polygony v nichž se bod nachází se barevně zvýrazní.
+
+%----------------------------------------------------------------------------------------
+%	LITERATURA
+%----------------------------------------------------------------------------------------
+\newpage
+\section{Literatura}
+
+[1] T. Bayer - přednášky \\
+
+[2] P. Martínek - BP
+%----------------------------------------------------------------------------------------
+%	POZNÁMKY
+%----------------------------------------------------------------------------------------
+%- zadání
+%- popis a rozbor problému\\
+%- popis algoritmů formálním jazykem\\
+%- problematické situace a jejich rozbor (tj. simplexy) + ošetření těchto situací v kódu\\
+%- vstupní data, formát vstupních dat, popis\\
+%- výstupní data, formát výstupních dat, popis\\
+%- printscreen vytvořené aplikace\\
+%- dokumentaci: popis tříd, datových položek a jednotlivých metod\\
+%- závěr, možné či neřešené problémy, náměty na vylepšení\\
+%- seznamy literatury\\
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
