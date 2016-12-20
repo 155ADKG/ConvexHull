@@ -288,14 +288,12 @@ V níže vloženém zdrojovém kódu testujeme podmínku, kdy vypočtený úhel 
             }
         }
 \end{lstlisting}
-
 %----------------------------------------------------------------------------------------
 %	UKÁZKA APLIKACE
 %----------------------------------------------------------------------------------------
-\newpage
-\section{Ukázka vytvořené aplikace}
-Výsledná aplikace obsahuje ...
-%jedno tlačítku \emph{Generate}, kterým uživatel spustí vygenerování náhodných polygonů. Následně si vybere algoritmus z nabýdky comboboxu a kliknutím do mapy spustí výpočet. Pokud je zkoumaný bod nachází v polygonu barevně se zvýrazní.
+%\newpage
+%\section{Ukázka vytvořené aplikace}
+%jedno tlačítku \emph{Generate}, kterým uživatel spustí vygenerování náhodných polygonů. Následně si vybere algoritmus z nabýdky comboboxu a kliknutím do mapy spustí výpočet. Pokud je zkoumaný bod nachází v polygonu barevně se zvýrazní. \\
 %\begin{figure}[htbp]
 %\begin{center}
 %\includegraphics[width=0.73\columnwidth]{} % Example image
@@ -309,6 +307,142 @@ Výsledná aplikace obsahuje ...
 % \caption{Příklad bodu uvnitř polygonu}
 %\end{center}
 %\end{figure}
+%---------------------------------------------- jarvis ----------------------------------------------
+\section{Časová náročnost}
+Následující tabulky zaznamenávají časovou náročnost jednotlivých algoritmů pro různé typy generovaných množin bodů v různém množství. Testy jsme prováděli na intervalu  $ <1000,1000000>$ pro typy generovaných množin bodů \emph{Random, Grid} a \emph{Cluster}. Každý test jsme ze statistických důvodů opakovali vždy 10x.
+\begin{center}
+	\begin{table}[]
+	\centering
+	\caption{Jarvis Scan - Random}
+	\label{my-label}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline 
+ 	Počet bodů&  1000& 2500 & 5000 & 10 000 & 25 000 & 50 000  & 100 000  & 250 000  & 500 000 & 1 000 000  \\ \hline \hline
+ 		1. čas [ms]&  5&  13&  17&  31& 69 &    131&  253&  495&  909&  2041\\ \hline
+ 		2. čas [ms]&  5&    9&  22&  36&  68&    125&  208&  508&  907&  1757\\ \hline
+ 		3. čas [ms]&  6&  12&  16&  30&  65&    126&  209&  519&  939&  2032\\ \hline
+ 		4. čas [ms]&  6&  11&  16&  33&  61&    126&  216&  495&  899&  1751\\ \hline
+ 		5. čas [ms]&  5&  10&  19&  28&  71&   115 &  200&  490&  864&  1759\\ \hline
+ 		6. čas [ms]&  3&  12&  24&  34&  69&    124&  237&  550&  946&  1950\\ \hline
+ 		7. čas [ms]&  7&  13&  18&  28&  59&      97&  305&  536&  993&  1841\\ \hline
+ 		8. čas [ms]&  5&  11&  19&  34&  59&    105&  227&  514&  945&  1878\\ \hline
+ 		9. čas [ms]&  6&  11&  17&  26&  61&    130&  245&  487&  1049&  1858\\ \hline
+		10. čas [ms]& 4 & 13 &  16&  28&  62&  113&  229&  579&  856&  1870\\ \hline \hline
+ 		Průměr [ms]& 5& 12 &18  &31  &54  &119  &233  &517  &931  & 1874 \\ \hline
+	\end{tabular}
+	%\end{table}
+
+	%\begin{table}[ht]
+	\centering
+	\caption{Jarvis Scan - Grid}
+	\label{my-label}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline 
+ 	Počet bodů&  1000& 2500 & 5000 & 10 000 & 25 000 & 50 000  & 100 000  & 250 000  & 500 000 & 1 000 000  \\ \hline \hline
+ 		1. čas [ms]& 2 & 11& 14& 18 &  40&  81&  155&  426&  856& 1826 \\ \hline
+ 		2. čas [ms]& 3&   5&  12&  22&  37&  80&  164&  425&  855& 1827\\ \hline
+ 		3. čas [ms]&  2& 7 &  13&  19&  36&  80&  157&  424&  909& 1828 \\ \hline
+ 		4. čas [ms]&  2&  5&  13&  18&  37&  80&  156&  425&  857& 1827 \\ \hline
+ 		5. čas [ms]&  2&  6&  14&  22&  36&  87&  157&  425&  915& 1826 \\ \hline
+ 		6. čas [ms]&  2&  6&  11&  17&  36&  84&  156&  427&  856& 1829 \\ \hline
+ 		7. čas [ms]&  3&  7&  9&    20&  37&  80&  156&  440&  856& 1829 \\ \hline
+ 		8. čas [ms]&  2&  6& 13&   19&  38&  80&  156&  425&  859& 1828 \\ \hline
+ 		9. čas [ms]&  2&  7&  9&    17&  36&  80&  156&  427&  859& 1827\\ \hline
+		10. čas [ms]&  2& 3& 9&    19&  36&  81&  155&  427&  858& 1824 \\ \hline \hline
+ 		Průměr [ms]&  2&  6&  12&  19&  37&  81&  157&  427&  868&  1827\\ \hline
+	\end{tabular}
+%	\end{table}
+%
+%	\begin{table}[ht]
+	\centering
+	\caption{Jarvis Scan - Cluster}
+	\label{my-label}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline 
+ 	Počet bodů&  1000& 2500 & 5000 & 10 000 & 25 000 & 50 000  & 100 000  & 250 000  & 500 000 & 1 000 000  \\ \hline \hline
+ 		1. čas [ms]&  5&  11&  19&  35&  91&  172&  306&  763&  1350&  2775\\ \hline
+ 		2. čas [ms]&  2&  11&  17&  36&  86&  151&  326&  804&  1548&  2488\\ \hline
+ 		3. čas [ms]&  5&  13&  16&  35&  89&  190&  329&  792&  1423&  2950\\ \hline
+ 		4. čas [ms]&  4&  13&  23&  32&  82&  184&  361&  753&  1357&  2848\\ \hline
+ 		5. čas [ms]&  5&  12&  17&  37&  74&  162&  337&  678&  1514&  2482\\ \hline
+ 		6. čas [ms]&  5&  14&  15&  26&  88&  186&  319&  808&  1500&  2701\\ \hline
+ 		7. čas [ms]&  5&  12&  18&  31&  84&  166&  310&  860&  1743&  2197\\ \hline
+ 		8. čas [ms]&  4&  11&  18&  34&  91&  166&  280&  832&  1504&  3066\\ \hline
+ 		9. čas [ms]&  6&   7 &  19&  34&  87&  194&  328&  825&  1592&  2849\\ \hline
+		10. čas [ms]& 4& 10& 24&  39&  85&  180&  320&  765&  1698&  2903\\ \hline \hline
+ 		Průměr [ms]& 5 &11  & 19 & 34 & 86 &175  & 322 & 788 & 1523 & 2726 \\ \hline
+	\end{tabular}
+	\end{table}
+\end{center}
+%---------------------------------------------- quick hull ----------------------------------------------
+\begin{center}
+	\begin{table}[]
+	\centering
+	\caption{Quick Hull - Random}
+	\label{my-label}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline 
+ 	Počet bodů&  1000& 2500 & 5000 & 10 000 & 25 000 & 50 000  & 100 000  & 250 000  & 500 000 & 1 000 000  \\ \hline \hline
+ 		1. čas [ms]&  3&  9&  10&   22&  28&  61&  118&  304&  562&  1093\\ \hline
+ 		2. čas [ms]&  3&10&  11&  16&  38&  72&  129&  302&  558&  1142\\ \hline
+ 		3. čas [ms]&  3&10&  13&  20&  32&  75&  143&  307&  588&  1020\\ \hline
+ 		4. čas [ms]&  3&  8&  11&  19&  37&  67&  146&  303&  590&  1086\\ \hline
+ 		5. čas [ms]&  3&  8&  13&  21&  37&  72&  148&  275&  619&  1089\\ \hline
+ 		6. čas [ms]&  3&  7&  14&  22&  38&  63&  144&  303&  618&  1207\\ \hline
+ 		7. čas [ms]&  2&  7&  13&  21&  33&  66&  112&  301&  559&  1087\\ \hline
+ 		8. čas [ms]&  3&  9&  10&  23&  40&  52&  130&  302&  556&  1025\\ \hline
+ 		9. čas [ms]&  2&  7&  16&  20&  36&  72&  134&  286&  558&  1023\\ \hline
+		10. čas [ms]&4& 7&  11&  14&  34&  57&  150&  272&  561&  1096\\ \hline \hline
+ 		Průměr [ms]& 3 &8  &12 &20  &35  &66  &135  &296  &  577& 1087  \\ \hline
+	\end{tabular}
+%	\end{table}
+%
+%	\begin{table}[ht]
+	\centering
+	\caption{Quick Hull - Grid}
+	\label{my-label}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline 
+ 	Počet bodů&  1000& 2500 & 5000 & 10 000 & 25 000 & 50 000  & 100 000  & 250 000  & 500 000 & 1 000 000  \\ \hline \hline
+ 		1. čas [ms]&  1&  2&  7&  10&  17&  43&  74&  191&  391&  848\\ \hline
+ 		2. čas [ms]&  1&  3&  4&  12&  17&  42&  73&  189&  391&  847\\ \hline
+ 		3. čas [ms]&  1&  4&  8&    8&  17&  42&  74&  190&  392&  851\\ \hline
+ 		4. čas [ms]&  1&  4&  8&  10&  18&  43&  74&  190&  392&  849\\ \hline
+ 		5. čas [ms]&  1&  4&  8&  13&  17&  43&  74&  191&  391&  849\\ \hline
+ 		6. čas [ms]&  2&  3&  7&  12&   18& 43&  74&  190&  392&  850\\ \hline
+ 		7. čas [ms]&  1&  3&  7&    8&   18& 43&  79&  190&  391&  846\\ \hline
+ 		8. čas [ms]&  1&  4&  8&    7&   22& 42&  74&  189&  391&  848\\ \hline
+ 		9. čas [ms]&  1&  4&  5&  10&   18& 42&  74&  189&  391&  847\\ \hline
+		10. čas [ms]&1&  2&  8&  12&   17& 43&  74&  190&  392& 846\\ \hline \hline
+ 		Průměr [ms]&  1& 3 &7& 10 & 18 & 43 & 74 &  190&  391& 848 \\ \hline
+	\end{tabular}
+%	\end{table}
+%
+%	\begin{table}[ht]
+	\centering
+	\caption{Quick Hull - Cluster}
+	\label{my-label}
+	\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+		\hline 
+ 	Počet bodů&  1000& 2500 & 5000 & 10 000 & 25 000 & 50 000  & 100 000  & 250 000  & 500 000 & 1 000 000  \\ \hline \hline
+ 		1. čas [ms]&  3&  7&  17&  18&  58&   94&  173&  383&  845&  1544\\ \hline
+ 		2. čas [ms]&  3&  6&  16&  21&  51&   92&  174&  400&  815&  1784\\ \hline
+ 		3. čas [ms]&  3&  6&  13&  17&  49&   94&  167&  354&  752&  1653\\ \hline
+ 		4. čas [ms]&  3&  9&    8&  19&  50& 118&  167&  462&  787&  1298\\ \hline
+ 		5. čas [ms]&  3&  7&  10&  18&  52&   94&  163&  449&  816&  1594\\ \hline
+ 		6. čas [ms]&  4&  9&  16&  24&  43&   81&  172&  384&  945&  1419\\ \hline
+ 		7. čas [ms]&  3&  9&  16&  21&  40&   91&  167&  383&  728&  1544\\ \hline
+ 		8. čas [ms]&  3&  8&  15&  19&  52&   92&  205&  414&  811&  1657\\ \hline
+ 		9. čas [ms]&  3&  8&  12&  21&  47&   84&  198&  465&  843&  1371\\ \hline
+		10. čas [ms]&3&  8&  11&  26&  50&   89&  216&  417&  723&  1585\\ \hline \hline
+ 		Průměr [ms]&  3&  8&  13& 20 & 49 & 93 & 180 &411  &806  &1545  \\ \hline
+	\end{tabular}
+	\end{table}
+\end{center}
+
+%---------------------------------------------- quick hull ----------------------------------------------
+
+
 
 %----------------------------------------------------------------------------------------
 %	DOKUMENTACE
