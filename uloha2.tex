@@ -224,7 +224,7 @@ Konvexní obálku chápeme jako minimální ohraničení určité množiny bodů
 V~přednáškách a cvičeních jsme se seznámili s algoritmy  pro výpočet konvexních obálek a v následující části se těmito algoritmy budeme zabývat.
 
 \subsection{Quick Hull}
-Princip metody Quick Hull je založen na konstrukci dvou obálek, horní (upper) a dolní (lower). Rozdělení na horní a dolní obálku se provádí pomocí spojnice dvou bodů s extrémními souřadnicemi $x$ a to $q_1 = min(x_i)$ a $q_3 = max(x_i)$. Horní je pak logicky nad touto spojnicí. V případě orientované úsečky z $q_1$ do $q_3$ jsou pak body v horní obálce vlevo od této spojnice. Následně nad každou nalezenou stranou obálky hledáme nejvzdálenější bod ležící vpravo od této spojnice. Takový bod se stává novým bodem obálky a stávající stranu rozdělí na dvě nové. Tento postup je aplikován do vyčerpání všech bodů a to v obou částech konvexní obálky (horní i dolní) odděleně. Výsledná konvexní obálka je pak složena z obou částí.
+Princip metody Quick Hull je založen na konstrukci dvou obálek, horní (upper) a dolní (lower). Rozdělení na horní a dolní obálku se provádí pomocí spojnice dvou bodů s extrémními souřadnicemi $x$ a to $q_1 = min(x_i)$ a $q_3 = max(x_i)$. Horní je pak logicky nad touto spojnicí. V případě orientované úsečky z $q_1$ do $q_3$ jsou pak body v horní obálce vlevo od této spojnice. Následně nad každou nalezenou stranou obálky hledáme nejvzdálenější bod ležící vpravo od této spojnice. Takový bod se stává novým bodem obálky a stávající stranu rozdělí na dvě nové. Tento postup je aplikován do vyčerpání všech bodů a to v obou částech konvexní obálky (horní i~dolní) odděleně. Výsledná konvexní obálka je pak složena z obou částí.
 
 \begin{figure}[ht]
 \begin{center}
@@ -253,15 +253,46 @@ Incremental Construction je metoda založená na principu postupném přidáván
 Nalezení tečen se provádí testováním polohy incidujících stran $e_j, e_{j+1}$ vzhledem k přidávanému bodu. Pro dolní tečnu platí, že přidávaný bod je vlevo od $e_j$ a v pravo od $e_{j+1}$. Pro horní tečnu patí, že bod je vpravo od $e_j$ a vlevo od $e_{j+1}$.
 
 \subsection{Graham Scan}
-Graham Scan je metoda...\\
+Graham Scan je metoda, kde tři po sobě jdoucí body jsou součástí konvexní obálky v případě, kdy poslední bod leží vlevo od spojnice předchozích dvou. V případě kdy se nachází vpravo, dojde k odtranění prostředního bodu z konvexní obálky a následne se testují jeho dva předcházející body s jeho následníkem. Následují další testy, vždy se o jeden krok posuneme v množině bodů a znovu testujeme polohu posledního ze trojice bodů.\\
 
+Podstatnou podnímkou pro fungování algoritmu je jeho předstpracování. To spočívá v nalezení pivota $q$, kde $q_y=min(y)$ a setřídění množiny bodů podle úhlu od osy $x$ ke zkoumanému bodu s vrcholem v bodě $q$.
+
+\newpage
 \section{Problematické situace}
-\subsection{Jarvis Scan}
-Bylo nutné ošetřit..
+\subsection{Kolineární situace u Jarvis Scanu}
+Jak již byly popsáno v předešlé kapitole, algoritmus Jarvis Scanu hledá největší vnitří úhly mezi stranou tvořenou posledními dvěma body obálky a dalším bodem, který ještě není v obálce. Při tomto testu může nastat situace, kdy dva body mají stejný úhel (leží na jedné přímce). V takovém případě hledáme bod, který je nejdále od posledního bodu konvexní obálky.\\
+
+V níže vloženém zdrojovém kódu testujeme podmínku, kdy vypočtený úhel je větší jak aktuální maximální úhel. V případě splnění podmínky je tento úhel uložen jako maximální. Při nesplnění podmínky dochází k testu, jestli si nejsou maximální a aktuální úhel rovny (kolineární situace). V takovém případě se spočte zvdálenost a posoudí se, která z hodnot je větší.\\
+ 
+\begin{lstlisting}
+ for (unsigned int i=0;i<points.size();i++)
+        {
+            double omg = getTwoVectorsOrientation(pj,pjj,pj,points[i]);
+            if (omg > omg_max)
+            {
+                omg_max = omg;
+                idx_max = i;
+                d_max = sqrt((points[i].x()-pj.x())*(points[i].x()-pj.x()) +...
+                + (points[i].y()-pj.y())*(points[i].y()-pj.y()));
+            }
+            else if (omg == omg_max)
+            {
+                double d = sqrt((points[i].x()-pj.x())*(points[i].x()-pj.x()) +...
+                + (points[i].y()-pj.y())*(points[i].y()-pj.y()));
+                if(d_max < d)
+                {
+                    omg_max = omg;
+                    idx_max = i;
+                    d_max = d;
+                }
+            }
+        }
+\end{lstlisting}
 
 %----------------------------------------------------------------------------------------
 %	UKÁZKA APLIKACE
 %----------------------------------------------------------------------------------------
+\newpage
 \section{Ukázka vytvořené aplikace}
 Výsledná aplikace obsahuje ...
 %jedno tlačítku \emph{Generate}, kterým uživatel spustí vygenerování náhodných polygonů. Následně si vybere algoritmus z nabýdky comboboxu a kliknutím do mapy spustí výpočet. Pokud je zkoumaný bod nachází v polygonu barevně se zvýrazní.
