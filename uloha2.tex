@@ -229,7 +229,7 @@ Princip metody Quick Hull je založen na konstrukci dvou obálek, horní (upper)
 \begin{figure}[ht]
 \begin{center}
 \includegraphics[width=0.6\columnwidth]{02quick} % Example image
-\caption{Quick Hull algorithm [2]}
+\caption{Quick Hull algorithm}
 \label{fig:wind}
 \end{center}
 \end{figure}
@@ -250,7 +250,7 @@ Algoritmus je založen na principu, kdy hledáme maximální vnitříní úhel m
 \subsection{Incremental Construction}
 Incremental Construction je metoda založená na principu postupném přidávání dobů zkoumanné množiny do konvexní obálky. Tvar konvexní obálky je tak modifikován, přičemž mohou při přidávání bodů nastat dva případy. Prvním je možnost, že bod leží uvnitř konvexní obálky a její tvar neovlivní a druhá možnost, že bod leží vně obálky . Tím ovlivní její tvar a je nutné najít horní a dolní tečny, procházející přidávaným bodem, kolmé na konvexní obálku. Test polohy zkoumaného bodu je prováděn Half Edge testem.\\
 
-Nalezení tečen se provádí testováním polohy incidujících stran $e_j, e_{j+1}$ vzhledem k přidávanému bodu. Pro dolní tečnu platí, že přidávaný bod je vlevo od $e_j$ a v pravo od $e_{j+1}$. Pro horní tečnu patí, že bod je vpravo od $e_j$ a vlevo od $e_{j+1}$.
+Nalezení tečen se provádí testováním polohy zainteresovaných stran $e_j, e_{j+1}$ vzhledem k přidávanému bodu. Pro dolní tečnu platí, že přidávaný bod je vlevo od $e_j$ a v pravo od $e_{j+1}$. Pro horní tečnu patí, že bod je vpravo od $e_j$ a vlevo od $e_{j+1}$.
 
 \subsection{Graham Scan}
 Graham Scan je metoda, kde tři po sobě jdoucí body jsou součástí konvexní obálky v případě, kdy poslední bod leží vlevo od spojnice předchozích dvou. V případě kdy se nachází vpravo, dojde k odtranění prostředního bodu z konvexní obálky a následne se testují jeho dva předcházející body s jeho následníkem. Následují další testy, vždy se o jeden krok posuneme v množině bodů a znovu testujeme polohu posledního ze trojice bodů.\\
@@ -309,7 +309,9 @@ V níže vloženém zdrojovém kódu testujeme podmínku, kdy vypočtený úhel 
 %\end{figure}
 %---------------------------------------------- jarvis ----------------------------------------------
 \section{Časová náročnost}
-Následující tabulky zaznamenávají časovou náročnost jednotlivých algoritmů pro různé typy generovaných množin bodů v různém množství. Testy jsme prováděli na intervalu  $ <1000,1000000>$ pro typy generovaných množin bodů \emph{Random, Grid} a \emph{Cluster}. Každý test jsme ze statistických důvodů opakovali vždy 10x.
+Následující tabulky zaznamenávají časovou náročnost jednotlivých algoritmů pro různé typy generovaných množin bodů v různém množství. Testy jsme prováděli na intervalu  $ <1000,1000000>$ pro typy generovaných množin bodů \emph{Random, Grid} a \emph{Cluster}. Každý test jsme ze statistických důvodů opakovali vždy 10x.\\
+
+Nakonec byly spočteny průměrné hodnoty z deseti měření a vyhotoveny grafy znázorňující průběh časové náročnosti.
 \begin{center}
 	\begin{table}[]
 	\centering
@@ -440,6 +442,19 @@ Následující tabulky zaznamenávají časovou náročnost jednotlivých algori
 	\end{table}
 \end{center}
 
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.75\columnwidth]{jarvis} % Example image
+ \caption{Časová náročnost Jarvis Scanu}
+\end{center}
+%\end{figure}
+%
+%\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.75\columnwidth]{qhull} % Example image
+ \caption{Časová náročnost Quick Hull}
+\end{center}
+\end{figure}
 %---------------------------------------------- quick hull ----------------------------------------------
 
 
@@ -479,93 +494,120 @@ Do této funkce vstupuje jedna proměnná typu  \emph{std::vector$<$QPoint$>$}. 
 Výstupem funkce je množina bodů uspořádaná do \emph{std::vector$<$QPoint$>$}, reprezentující konvexní obálku. Tento vektor je následně volán ze třídy \emph{Draw}.
 
 \subsubsection{getPointLinePosition}
-Do této funkce vstupují tři proměnné typu \emph{QPointF}.\\
+Do této funkce vstupují tři proměnné typu \emph{QPoint}.\\
 Výstupem funkce je hodnota typu integer, která reprezentuje polohu zkoumaného bodu (první proměnná) vůči vektoru daného druhou a třetí proměnnou. Výstup nabývá hodnoty 1 pokud je zkoumaný bod v levé polorovině od vektoru, 0 pokud je v pravé polorovině od vektoru a -1 pokud na přímce procházející vektorem.
 
 \subsubsection{getTwoVectorsOrientation}
-Do této funkce vstupují čtyři proměnné typu \emph{QPointF}.\\
+Do této funkce vstupují čtyři proměnné typu \emph{QPoint}.\\
 Výstupem funkce je hodnota typu double, která reprezentuje úhel ve stupních mezi vektory, které jsou tvořeny první a druhou proměnnou a třetí a čtvrtou proměnnou.
 
 \subsubsection{getPointLineDistance}
-Do této funkce vstupují tři proměnné typu \emph{QPointF}.\\
+Do této funkce vstupují tři proměnné typu \emph{QPoint}.\\
 Výstupem funkce je hodnota typu double, která reprezentuje vzdálenost zkoumaného bodu (první proměnná) vůči vektoru daného druhou a třetí proměnnou.
 
-\newpage
 \subsection{Třída Draw \label{sec:draw}}
 Třída Draw obsahuje privátní proměnné:
 \begin{itemize}
-\item \emph{Qvector$<$QPolygonF$>$} pols
-\item \emph{QPointF} cursor
-\item \emph{bool} ignoreDrawPols
-\item \emph{Qvector$<$bool$>$} results
-\item \emph{bool} draw\_what
-\end{itemize}
-
-Třída Draw obsahuje dále veřejnou proměnnou:
-\begin{itemize}
-\item \emph{int} typeAlgorithms
+\item \emph{std::vector$<$QPoint$>$} points;
+\item \emph{std::vector$<$QPoint$>$} convexHull;
+\item \emph{typeGen }typeGenerate;
+\item \emph{typeAlg }typeAlgorithm;
+\item \emph{unsigned int }countPoints;
+\item \emph{bool }pushGen;
+\item \emph{bool} pushAlg;
+\item \emph{int }time\_alg;
 \end{itemize}
 
 Třída Draw obsahuje dále funkce:
 \begin{itemize}
-\item mousePressEvent
 \item paintEvent
 \item generatePoint
-\item generatePolygons
-\item setDrawWhat
-\item getCursor
+\item generatePoints
+\item setTypeGenerate
+\item setTypeAlgorithm
+\item setCountPoints
+\item setPushGen
+\item setPushAlg
+\item getTiming
 \end{itemize}
 
-\subsubsection{mousePressEvent}
-Funkce se aktivuje kliknutím myší do oblasti \emph{QWidgetu} Canvas, který je propojený s třídou \emph{Draw}. Zavolá zvolený algoritmus (\emph{rayAlgorithm},\emph{ windingAlgorithm}) a naplní proměnnou \emph{results}. Následně zavolá funkci \emph{paintEvent} pomocí příkazu \emph{repaint()}.
-
 \subsubsection{paintEvent}
-Funkce je volána funkcí \emph{mousePressEvent} nebo po kliknutí na tlačítko \emph{Generate}. Pomocí privátní proměnné \emph{draw\_what} se zavolá funkce \emph{generatePolygons}, která naplní proměnnou \emph{pols} nebo se zvýrazní polygon v němž leží zkoumaný bod.
+Funkce je volána funkcí po kliknutí na tlačítko \emph{Generate} nebo \emph{Find Convex Hull}. Pomocí privátních proměnných \emph{pushAlg, pushGen} se zavolá funkce \emph{generatePoints}, která naplní proměnnou \emph{points} a vykreslí vygenerované body nebo se zavolá jeden z algoritmů, který naplní privátní proměnnou \emph{convexHull} a vykreslí ji včetně již vygenerovaných bodů.
 
 \subsubsection{generatePoint}
 Funkce generující jeden náhodný bod typu\emph{ QPoint}.
 
-\subsubsection{generatePolygons}
-Funkce naplní proměnnou \emph{pols} náhodným počtem náhodně generovaných polygonů. Vstupní hodnota označuje počet generovaných bodů (volání funkce \emph{generatePoint}), z kterých se polygony vytváří.\\
-Funkce používá dvě funkce z třídy \emph{Algorithms} (\emph{getPointLinePosition}, \emph{getTwoVectorsOrientation}) a třídu \emph{sortByXAsc}. 
+\subsection{generatePoints}
+Funkce generuje body dle zvolené metody generování. Pokud se generuje typ cluster, vždy se vygeneruje prvotní bod (pivot), kolem kterého se generuje náhodný počet bodů od jedné do sta, poté se vygeneruje další pivot. při generování typu grid se přes dva for cykly (x a y) rovnoměrně rozdělí generovaná plocha pomocí bodů na čtvercovou síť bodů. Při typu random se pouze zavolá funkce \emph{generatePoint} ve for cyklu tolikrát, kolik nabývá hodnota proměnné \emph{countPoints}, tedy počet generovaných bodů.
+\subsection{setTypeGenerate}
+Metoda předává proměnnou z GUI do třídy \emph{Draw}.
 
-\subsubsection{setDrawWhat}
-Funkce slouží k přepínání uživatelem zvoleného algoritmu.
+\subsection{setTypeAlgorithm}
+Metoda předává proměnnou z GUI do třídy \emph{Draw}.
 
-\subsubsection{getCursor}
-Funkce slouží k získání souřadnic zkoumaního bodu z polohy myši.
+\subsection{setCountPoints}
+Metoda předává proměnnou z GUI do třídy \emph{Draw}.
 
-\subsection{Třída MainForm}
-Třída \emph{MainForm} obsahuje funkce:
+\subsection{setPushGen}
+Metoda předává proměnnou z GUI do třídy \emph{Draw}.
+
+\subsection{setPushAlg}
+Metoda předává proměnnou z GUI do třídy \emph{Draw}.
+
+\subsection{getTiming}
+Metoda vrací dobu výpočtu \ldots
+
+\section{Třída Widget}
+Třída \emph{Winget} obsahuje funkce:
 \begin{itemize}
-\item on\_pushGenerate\_clicked
-\item on\_comboBox\_currentIndexChanged
+\item on\_pushGen\_clicked
+\item on\_comboTypeGen\_currentIndexChanged
+\item on\_pushAlg\_clicked
+\item on\_comboTypeAlg\_currentIndexChanged
 \end{itemize}
 
-\subsubsection{on\_pushGenerate\_clicked}
+\subsubsection{on\_pushGen\_clicked}
 Funkce se spouští kliknutím uživatele na tlačítko \emph{Generate} a příkazem \emph{repaint()} spustí funkci \emph{paintEvent} ve třídě \emph{Draw}.
 
-\subsubsection{on\_comboBox\_currentIndexChanged}
-Funkce se spouští změnou \emph{QComboBoxu} a předá informaci o uživatelem zvoleném algoritmu do třídy \emph{Draw}.
+\subsubsection{on\_comboTypeGen\_urrentIndexChanged}
+Funkce se spouští změnou \emph{QComboBoxu} a předá informaci o uživatelem zvoleném typu generování bodů do třídy \emph{Draw}.
 
-\subsection{sortByXAsc}
-Třída \emph{sortByXAsc} slouží funkci \emph{generatePolygons} z třídy \emph{Draw} k vzestupnému setřídění úhlů.
+\subsubsection{on\_pushAlg\_clicked}
+Funkce se spouští kliknutím uživatele na tlačítko \emph{Find Convex Hull} a příkazem \emph{repaint()} spustí funkci \emph{paintEvent} ve třídě \emph{Draw}.
+
+\section{Třída sortByXAsc}
+Třída \emph{sortByXAsc} obsahuje pouze operátor, který slouží funkcím z třídy \emph{Algorithms} k vzestupnému setřídění bodů podle souřdnice x.
+
+\section{Třída sortByYAsc}
+Třída \emph{sortByYAsc} obsahuje pouze operátor, který slouží funkcím z třídy \emph{Algorithms} k vzestupnému setřídění bodů podle souřdnice y.
+
+\section{Třída sortDouble}
+Třída \emph{sortDouble} obsahuje pouze operátor, který slouží funkci \emph{graham} z třídy \emph{Algorithms} k vzestupnému setřídění úhlů.
+
+\section{Třída RemoveDuplicatePoints}
+Třída \emph{RemoveDuplicatePoints} obsahuje pouze operátor, který slouží funkci \emph{incr} z třídy \emph{Algorithms} k vymazání duplicitních bodů.
 %----------------------------------------------------------------------------------------
 %	ZÁVĚR
 %----------------------------------------------------------------------------------------
 \newpage
 \section{Závěr}
-Aplikace byla vytvořena dle zadání v QtCreator. Pro určení polohy bodu vůči polygonu byly vytvořeny dva algoritmy, mezi kterými si uživatel volí výběrem z comboBoxu. Generování polygonů probíhá na základě námi vytvořeného algoritmu po stisknutí tlačítka Generate. Uživatel klikem do kreslící oblasti určí skoumaný bod a polygony v nichž se bod nachází se barevně zvýrazní.
+Aplikace byla vytvořena dle zadání v QtCreator. Algoritmy Jarvis Scan a Quick Hull na hledání konvexní obálky fungují bezchybně včetně ošetření kolineárního případu u Jarvis Scanu. \\
+
+Z výsledků v tabulkách a grafu můžeme vypozorovat, že algoritmus Quick Hull je na testované množině mnohdy až dvakrát časově méně náročný. Dále lze pozorova různé časové náročnosti vzhledem k typu generovaných množin bodů.\\
+
+K zamyšlení se nabízí možnosti optimalizace a především využití vícevláknových výpočtů, což by mnohonásobně zkrátilo časové náročnosti na velkých množinách.
+
+
 
 %----------------------------------------------------------------------------------------
 %	LITERATURA
 %----------------------------------------------------------------------------------------
-\newpage
-\section{Literatura}
-
-[1] T. Bayer - přednášky \\
-
-[2] P. Martínek - BP
+%\newpage
+%\section{Literatura}
+%
+%[1] T. Bayer - přednášky \\
+%
+%[2] P. Martínek - BP
 %----------------------------------------------------------------------------------------
 %	POZNÁMKY
 %----------------------------------------------------------------------------------------
