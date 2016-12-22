@@ -291,22 +291,31 @@ V níže vloženém zdrojovém kódu testujeme podmínku, kdy vypočtený úhel 
 %----------------------------------------------------------------------------------------
 %	UKÁZKA APLIKACE
 %----------------------------------------------------------------------------------------
-%\newpage
-%\section{Ukázka vytvořené aplikace}
-%jedno tlačítku \emph{Generate}, kterým uživatel spustí vygenerování náhodných polygonů. Následně si vybere algoritmus z nabýdky comboboxu a kliknutím do mapy spustí výpočet. Pokud je zkoumaný bod nachází v polygonu barevně se zvýrazní. \\
-%\begin{figure}[htbp]
-%\begin{center}
-%\includegraphics[width=0.73\columnwidth]{} % Example image
-% \caption{Přiklad bodu mimo polygon}
-%\end{center}
-%\end{figure}
-%
-%\begin{figure}[htbp]
-%\begin{center}
-%\includegraphics[width=0.73\columnwidth]{} % Example image
-% \caption{Příklad bodu uvnitř polygonu}
-%\end{center}
-%\end{figure}
+\newpage
+\section{Ukázka vytvořené aplikace}
+Aplikace obsahuje jedno tlačítko \emph{Generate}, kterým uživatel vygeneruje množinu bodů na základě jím zvolených parametrů. Tím je počet bodů, kam uživatel napíše kolik bodů se má vygenerovat, a typ generování, který si vybere z Comboboxu. Stiknutím tlačítka následně vykreslí aplikace množinu bodů do kreslící oblasti.\\
+
+Obdobně funguje i vykreslení konvexní obálky. Uživatel má k dispozici Combobox, kterým zvolí metodu pro výpočet konvexní obálky a následně tento výpočet spustí tlačítkem \emph{Find Convex Hull}. Tím dojde k vykreslení konvexní obálky.
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.50\columnwidth]{ukazka/random} % Example image
+ \caption{Příklad vykreslené konvexní obálky nad body random}
+\end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.50\columnwidth]{ukazka/grid} %Example image
+ \caption{Příklad vykreslené konvexní obálky nad body v gridu}
+\end{center}
+\end{figure}
+
+\begin{figure}[htbp]
+\begin{center}
+\includegraphics[width=0.50\columnwidth]{ukazka/cluster} %Example image
+ \caption{Příklad vykreslené konvexní obálky nad body cluster}
+\end{center}
+\end{figure}
 %---------------------------------------------- jarvis ----------------------------------------------
 \section{Časová náročnost}
 Následující tabulky zaznamenávají časovou náročnost jednotlivých algoritmů pro různé typy generovaných množin bodů v různém množství. Testy jsme prováděli na intervalu  $ <1000,1000000>$ pro typy generovaných množin bodů \emph{Random, Grid} a \emph{Cluster}. Každý test jsme ze statistických důvodů opakovali vždy 10x.\\
@@ -539,22 +548,22 @@ Funkce generující jeden náhodný bod typu\emph{ QPoint}.
 
 \subsection{generatePoints}
 Funkce generuje body dle zvolené metody generování. Pokud se generuje typ cluster, vždy se vygeneruje prvotní bod (pivot), kolem kterého se generuje náhodný počet bodů od jedné do sta, poté se vygeneruje další pivot. při generování typu grid se přes dva for cykly (x a y) rovnoměrně rozdělí generovaná plocha pomocí bodů na čtvercovou síť bodů. Při typu random se pouze zavolá funkce \emph{generatePoint} ve for cyklu tolikrát, kolik nabývá hodnota proměnné \emph{countPoints}, tedy počet generovaných bodů.
-\subsection{setTypeGenerate}
+\subsubsection{setTypeGenerate}
 Metoda předává proměnnou z GUI do třídy \emph{Draw}.
 
 \subsection{setTypeAlgorithm}
 Metoda předává proměnnou z GUI do třídy \emph{Draw}.
 
-\subsection{setCountPoints}
+\subsubsection{setCountPoints}
 Metoda předává proměnnou z GUI do třídy \emph{Draw}.
 
-\subsection{setPushGen}
+\subsubsection{setPushGen}
 Metoda předává proměnnou z GUI do třídy \emph{Draw}.
 
-\subsection{setPushAlg}
+\subsubsection{setPushAlg}
 Metoda předává proměnnou z GUI do třídy \emph{Draw}.
 
-\subsection{getTiming}
+\subsubsection{getTiming}
 Metoda vrací dobu výpočtu \ldots
 
 \section{Třída Widget}
@@ -605,7 +614,7 @@ K zamyšlení se nabízí možnosti optimalizace a především využití vícev
 %\newpage
 %\section{Literatura}
 %
-%[1] T. Bayer - přednášky \\
+%[1] BAYER T., Přednáška koncexní obálky adk4, \emph{online}, 22.\_12.\_ 2016, dostupné na: http:adk.com  - přednášky \\
 %
 %[2] P. Martínek - BP
 %----------------------------------------------------------------------------------------
