@@ -5,7 +5,7 @@
 class RemoveDuplicatePoints
 {
 public:
-    RemoveDuplicatePoints();
+    RemoveDuplicatePoints(){};
 
     bool operator() (const QPoint &p1, const QPoint &p2)
     {

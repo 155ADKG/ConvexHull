@@ -2,9 +2,7 @@
 #include <QDebug>
 
 std::vector<QPoint> Algorithms::graham(std::vector<QPoint> &points)
-{
-
-
+{    
     //sort points by y
     sort(points.begin(),points.end(), SortByYAsc());
     QPoint q = points[0];
@@ -111,17 +109,17 @@ double Algorithms::getPointLineDistance(const QPoint &p, const QPoint &p1, const
 
 std::vector<QPoint> Algorithms::incr(std::vector<QPoint> &points)
 {
-    const unsigned int m=points.size();
 
     std::vector<QPoint> CH;
-
 
     //Sort points by X
     std::sort(points.begin(),points.end(),SortByXAsc());
 
-   // points.erase(std::remove_if(points.begin(),points.end(),RemoveDuplicatePoints()),points.end());
+    //points.erase(std::remove_if(points.begin(),points.end(),RemoveDuplicatePoints()),points.end());
+    points.erase(std::unique(points.begin(),points.end(),RemoveDuplicatePoints()), points.end());
 
     //List of previous and next points of CH
+    const unsigned int m=points.size();
     std::vector<unsigned int> p(m), n(m);
 
     //Create inital approximation of CH
@@ -337,8 +335,6 @@ std::vector<QPoint> Algorithms::jarvis(std::vector<QPoint> points)
                     idx_max = i;
                     d_max = d;
                 }
-
-
             }
             //Resolve colinear points
 
@@ -351,4 +347,50 @@ std::vector<QPoint> Algorithms::jarvis(std::vector<QPoint> points)
         pj = points[idx_max];
     }while(pj != q);
     return ch;
+}
+
+void Algorithms::generatePoints(std::vector<QPoint> &points, int countPoints, typeGen typeGenerate, int win_w, int win_h){
+
+    if(typeGenerate == CLUS)
+    {
+        while (points.size() < countPoints)
+        {
+            QPoint pivot(rand()%win_w,rand()%win_h);
+            points.push_back(pivot);
+
+            for(int i=0; i<rand()%100; i++)
+            {
+                if(points.size()>=countPoints)
+                {
+                    break;
+                }
+
+                points.push_back(QPoint(pivot.x()+rand()%10,pivot.y()+rand()%5));
+            }
+        }
+    }
+    else if(typeGenerate == GRID)
+    {
+        for(float x=0; x<win_w; x += win_w/sqrt(countPoints))
+        {
+            for(float y=0; y<win_h; y += win_h/sqrt(countPoints))
+            {
+                points.push_back(QPoint(x,y));
+
+                // Exception for QPoint - we work with integer..
+                if (points.size() == countPoints)
+                {
+                    break;
+                }
+            }
+        }
+    }
+    else
+    {
+        for (int i=0;i<countPoints;i++)
+        {
+            points.push_back(QPoint(rand()%win_w,rand()%win_h));
+        }
+    }
+
 }

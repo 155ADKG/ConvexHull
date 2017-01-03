@@ -6,9 +6,15 @@
 #include "sortbyyasc.h"
 #include "sortdouble.h"
 #include "removeduplicatepoints.h"
+#include "customtypes.h"
 
 class Algorithms
 {
+
+private:
+    typeAlg typeAlgorithm;
+    void setTypeAlgorithm(typeAlg typeAlgorithm_){ typeAlgorithm = typeAlgorithm_; }
+
 public:
     Algorithms(){};
 
@@ -26,8 +32,11 @@ public:
 
     static std::vector<QPoint> graham(std::vector<QPoint> &points);
 
+    static void generatePoints(std::vector<QPoint> &points, int countPoints, typeGen typeGenerate, const int win_w, const int win_h);
+
 private:
     static void qh(const int s, const int e, const std::vector<QPoint> points, std::vector<QPoint> &ch);
+    static QPoint generatePoint();
 
 };
 

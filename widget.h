@@ -2,6 +2,7 @@
 #define WIDGET_H
 
 #include <QWidget>
+#include "customtypes.h"
 
 namespace Ui {
 class Widget;
@@ -10,6 +11,11 @@ class Widget;
 class Widget : public QWidget
 {
     Q_OBJECT
+private:
+    std::vector<QPoint> points;
+    std::vector<QPoint> convexHull;
+    typeGen typeGenerate;
+    typeAlg typeAlgorithm;
 
 public:
     explicit Widget(QWidget *parent = 0);

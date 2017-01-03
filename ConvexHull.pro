@@ -27,6 +27,7 @@ HEADERS  += widget.h \
     sortbyyasc.h \
     draw.h \
     sortdouble.h \
-    removeduplicatepoints.h
+    removeduplicatepoints.h \
+    customtypes.h
 
 FORMS    += widget.ui

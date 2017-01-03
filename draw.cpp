@@ -1,4 +1,5 @@
 #include "draw.h"
+#include "customtypes.h"
 
 Draw::Draw(QWidget *parent) : QWidget(parent)
 {
@@ -11,103 +12,20 @@ void Draw::paintEvent(QPaintEvent *e)
     QPainter painter(this);
     painter.begin(this);
 
-    if(pushGen){
+    // Draw points
+    for(int i=0; i<points.size(); i++){
+        painter.drawEllipse(points[i].x()-r/2, points[i].y()-r/2, r, r);
+    }
 
+    // Draw ConvexHull
+    if(convexHull.size()>0){
 
-        points.clear();
-        generatePoints();
-
-        // Draw point
-        for(int i=0; i<countPoints; i++){
-            painter.drawEllipse(points[i].x()-r/2, points[i].y()-r/2, r, r);
-        }
-
-    }else{
-
-        if(pushAlg == true && points.size()>0){
-
-            // Draw points
-            for(int i=0; i<countPoints; i++){
-                painter.drawEllipse(points[i].x()-r/2, points[i].y()-r/2, r, r);
-            }
-
-            convexHull.clear();
-
-            // Call current algorithm with timing
-            QTime myTimer;
-            myTimer.start();
-
-            if(typeAlgorithm == QCK){
-                convexHull = Algorithms::qhull(points);
-            }else if(typeAlgorithm == INC){
-                convexHull = Algorithms::incr(points);
-            }else if(typeAlgorithm == GRH){
-                convexHull = Algorithms::graham(points);
-            }else{
-                convexHull = Algorithms::jarvis(points);
-            }
-
-            time_alg = myTimer.elapsed();
-
-            QVector<QPoint> QConvexHull = QVector<QPoint>::fromStdVector(convexHull);
-            painter.setPen(QPen(Qt::magenta, 2));
-            painter.drawPolygon(QConvexHull);
-
-        }
+        QVector<QPoint> QConvexHull = QVector<QPoint>::fromStdVector(convexHull);
+        painter.setPen(QPen(Qt::magenta, 2));
+        painter.drawPolygon(QConvexHull);
 
     }
 
     painter.end();
-
-    pushGen = false;
-    pushAlg = false;
 }
 
-void Draw::generatePoints(){
-
-    unsigned int win_w = this->width()-20;
-    unsigned int win_h = this->height()-20;
-
-    if(typeGenerate == CLUS)
-    {
-        while (points.size() < countPoints)
-        {
-            QPoint pivot(rand()%win_w,rand()%win_h);
-            points.push_back(pivot);
-
-            for(int i=0; i<rand()%100; i++)
-            {
-                if(points.size()>=countPoints)
-                {
-                    break;
-                }
-
-                points.push_back(QPoint(pivot.x()+rand()%10,pivot.y()+rand()%5));
-            }
-        }
-    }
-    else if(typeGenerate == GRID)
-    {
-        for(float x=0; x<win_w; x += win_w/sqrt(countPoints))
-        {
-            for(float y=0; y<win_h; y += win_h/sqrt(countPoints))
-            {
-                points.push_back(QPoint(x,y));
-
-                // Exception for QPoint - we work with integer..
-                if (points.size() == countPoints)
-                {
-                    break;
-                }
-            }
-        }
-    }
-    else
-    {
-        for (int i=0;i<countPoints;i++)
-        {
-            points.push_back(QPoint(rand()%win_w,rand()%win_h));
-        }
-    }
-
-}
