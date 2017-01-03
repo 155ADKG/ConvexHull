@@ -111,15 +111,15 @@ double Algorithms::getPointLineDistance(const QPoint &p, const QPoint &p1, const
 
 std::vector<QPoint> Algorithms::incr(std::vector<QPoint> &points)
 {
-    const unsigned int m=points.size();
 
     std::vector<QPoint> CH;
-
 
     //Sort points by X
     std::sort(points.begin(),points.end(),SortByXAsc());
 
-   // points.erase(std::remove_if(points.begin(),points.end(),RemoveDuplicatePoints()),points.end());
+    points.erase(std::unique(points.begin(),points.end(),RemoveDuplicatePoints()),points.end());
+
+    const unsigned int m=points.size();
 
     //List of previous and next points of CH
     std::vector<unsigned int> p(m), n(m);
