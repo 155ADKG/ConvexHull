@@ -19,7 +19,9 @@ SOURCES += main.cpp\
     sortbyyasc.cpp \
     draw.cpp \
     sortdouble.cpp \
-    removeduplicatepoints.cpp
+    removeduplicatepoints.cpp \
+    removeduplicateangles.cpp \
+    sortbyangleasc.cpp
 
 HEADERS  += widget.h \
     algorithms.h \
@@ -28,6 +30,8 @@ HEADERS  += widget.h \
     draw.h \
     sortdouble.h \
     removeduplicatepoints.h \
-    customtypes.h
+    customtypes.h \
+    removeduplicateangles.h \
+    sortbyangleasc.h
 
 FORMS    += widget.ui

@@ -1,75 +1,82 @@
 #include "algorithms.h"
 #include <QDebug>
+#include "sortbyangleasc.h"
+#include "removeduplicateangles.h"
 
 std::vector<QPoint> Algorithms::graham(std::vector<QPoint> &points)
-{    
+{
+
     //sort points by y
     sort(points.begin(),points.end(), SortByYAsc());
     QPoint q = points[0];
     QPoint x1(-800,q.y());
 
+qDebug()<< "q pred: "<< q;
+    points.erase(std::unique(points.begin()+1,points.end(),RemoveDuplicateAngles(q,x1)),points.end());
 
-    std::vector<double> omegas;
-    for (unsigned int i=0;i<points.size();i++)
-    {
-        omegas.push_back(getTwoVectorsOrientation(q,x1,q,points[i]));
-    }
+    sort(points.begin()+1,points.end(),SortByAngleAsc(q,x1));
+//    std::vector<double> omegas;
+//    for (unsigned int i=0;i<points.size();i++)
+//    {
+//        omegas.push_back(getTwoVectorsOrientation(q,x1,q,points[i]));
+//    }
 
-    double eps = 1e-05;
-    for(unsigned int i=0; i<omegas.size();i++)
-    {
-        for(unsigned int j=i+1;j<omegas.size();j++)
-        {
-            // Searching for two same angles
-            if(fabs(omegas[i]-omegas[j])<eps)
-            {
-                double di = ((points[i].x()-q.x())*(points[i].x()-q.x()) + (points[i].y()-q.y())*(points[i].y()-q.y()));
-                double dj = ((points[j].x()-q.x())*(points[j].x()-q.x()) + (points[j].y()-q.y())*(points[j].y()-q.y()));
+//    double eps = 1e-05;
+//    for(unsigned int i=0; i<omegas.size();i++)
+//    {
+//        for(unsigned int j=i+1;j<omegas.size();j++)
+//        {
+//            // Searching for two same angles
+//            if(fabs(omegas[i]-omegas[j])<eps)
+//            {
+//                double di = ((points[i].x()-q.x())*(points[i].x()-q.x()) + (points[i].y()-q.y())*(points[i].y()-q.y()));
+//                double dj = ((points[j].x()-q.x())*(points[j].x()-q.x()) + (points[j].y()-q.y())*(points[j].y()-q.y()));
 
-                // Deletion points with shortest distance from q
-                if(di>dj)
-                {
-                    points.erase(points.begin() + j);
-                    omegas.erase(omegas.begin() + j);
-                }
+//                // Deletion points with shortest distance from q
+//                if(di>dj)
+//                {
+//                    points.erase(points.begin() + j);
+//                    omegas.erase(omegas.begin() + j);
+//                }
 
-                else
-                {
-                    points.erase(points.begin() + i);
-                    omegas.erase(omegas.begin() + i);
-                }
+//                else
+//                {
+//                    points.erase(points.begin() + i);
+//                    omegas.erase(omegas.begin() + i);
+//                }
 
-            }
-        }
-    }
+//            }
+//        }
+//    }
 
-    std::vector<double> somegas = omegas;
-    std::vector<QPoint> spoints = points;
-    std::sort(somegas.begin(),somegas.end(),SortDouble());
-    for (unsigned int i=0;i<omegas.size();i++)
-    {
-        for (unsigned int j=0;j<omegas.size();j++)
-        {
-            if (omegas[i] == somegas[j])
-            {
-                spoints[j] = points[i];
-            }
-        }
-    }
+//    std::vector<double> somegas = omegas;
+//    std::vector<QPoint> spoints = points;
+//    std::sort(somegas.begin(),somegas.end(),SortDouble());
+//    for (unsigned int i=0;i<omegas.size();i++)
+//    {
+//        for (unsigned int j=0;j<omegas.size();j++)
+//        {
+//            if (omegas[i] == somegas[j])
+//            {
+//                spoints[j] = points[i];
+//            }
+//        }
+//    }
 
+    qDebug()<< "q po: " << points[0];
     QStack<QPoint> Q;
     Q.push(q);
-    Q.push(spoints[1]);
+    Q.push(points[1]);
 
     unsigned int j=2;
-    while(j<spoints.size())
+    while(j<points.size())
     {
         QPoint top = Q.pop();
 
-        if(getPointLinePosition(spoints[j],Q.top(),top)==1)
+        if(getPointLinePosition(points[j],Q.top(),top)==1)
         {
             Q.push(top);
-            Q.push(spoints[j]);
+            Q.push(points[j]);
             j++;
         }
 
