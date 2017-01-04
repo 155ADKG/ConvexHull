@@ -14,7 +14,7 @@ public:
     bool operator() (const QPoint &p1, const QPoint &p2)
     {
 
-        const double eps=1.0e-02;
+        const double eps=1.0e-03;
 
         if (fabs(Algorithms::getTwoVectorsOrientation(s,p1,s,e) - Algorithms::getTwoVectorsOrientation(s,p2,s,e))<eps)
         {
